@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://public-frontend-cos.metadl.com/mgx/img/favicon_atoms.ico" type="image/x-icon">
+    <title>INF6.KZ — 6-сынып Информатика онлайн кітапша</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: 'Open Sans', sans-serif; color: #333; background: #fff; overflow-x: hidden; line-height: 1.6; }
+h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* ===== NAVBAR ===== */
+.navbar { position: fixed; top: 0; left: 0; width: 100%; background: rgba(255,255,255,0.97); backdrop-filter: blur(10px); z-index: 1000; box-shadow: 0 2px 20px rgba(0,0,0,0.08); transition: all 0.3s ease; }
+.nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; height: 70px; }
+.nav-logo { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.5rem; background: linear-gradient(135deg, #ff416c, #ff4b2b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: flex; align-items: center; gap: 8px; }
+.logo-icon { font-size: 1.8rem; -webkit-text-fill-color: initial; }
+.nav-menu { display: flex; gap: 8px; }
+.nav-link { padding: 8px 14px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; color: #555; position: relative; }
+.nav-link:hover, .nav-link.active { color: #ff416c; background: rgba(255, 65, 108, 0.08); }
+.nav-link.active::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 20px; height: 3px; background: linear-gradient(135deg, #ff416c, #ff4b2b); border-radius: 2px; }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 5px; }
+.nav-toggle span { width: 25px; height: 3px; background: #ff416c; border-radius: 3px; transition: all 0.3s ease; }
+
+/* ===== HERO ===== */
+.hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; background: linear-gradient(135deg, #fff5f5 0%, #fff 50%, #fff0f0 100%); }
+.hero-overlay { position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, rgba(255,65,108,0.08) 0%, transparent 60%), radial-gradient(circle at 70% 80%, rgba(255,75,43,0.06) 0%, transparent 50%); z-index: 1; }
+.hero-bg-img { position: absolute; bottom: 0; right: 0; width: 50%; max-width: 600px; opacity: 0.15; z-index: 0; }
+.hero-content { position: relative; z-index: 2; padding: 120px 20px 80px; }
+.hero-title { font-size: 3.5rem; font-weight: 800; background: linear-gradient(135deg, #ff416c, #ff4b2b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px; line-height: 1.2; }
+.hero-subtitle { font-size: 1.25rem; color: #666; max-width: 600px; margin: 0 auto 40px; }
+
+/* ===== ANIMATIONS ===== */
+.animate-fade-up { opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease forwards; }
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 50% { opacity: 1; transform: scale(1.05); } 70% { transform: scale(0.9); } 100% { transform: scale(1); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+/* ===== BUTTONS ===== */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; border: none; transition: all 0.3s ease; font-family: 'Montserrat', sans-serif; }
+.btn-primary { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; box-shadow: 0 4px 20px rgba(255, 65, 108, 0.35); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(255, 65, 108, 0.5); }
+.btn-primary:active { transform: translateY(0); }
+.btn-outline { background: transparent; color: #ff416c; border: 2px solid #ff416c; padding: 10px 24px; font-size: 0.9rem; }
+.btn-outline:hover, .btn-outline.active { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; transform: translateY(-2px); }
+.btn-sm { padding: 10px 20px; font-size: 0.85rem; }
+.btn-whatsapp { background: #25d366; color: #fff; padding: 12px 28px; font-size: 1rem; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+.btn-whatsapp:hover { background: #1ebe57; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); }
+
+/* ===== SECTIONS ===== */
+.section { padding: 100px 0; }
+.section-alt { background: #fafafa; }
+.section-title { text-align: center; font-size: 2.5rem; font-weight: 800; margin-bottom: 12px; background: linear-gradient(135deg, #ff416c, #ff4b2b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.section-desc { text-align: center; color: #888; font-size: 1.1rem; margin-bottom: 50px; }
+
+/* ===== CARDS GRID ===== */
+.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+
+/* ===== TOPIC CARDS ===== */
+.topic-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 30px rgba(255, 65, 108, 0.1); transition: all 0.4s ease; cursor: pointer; border: 1px solid rgba(255, 65, 108, 0.08); }
+.topic-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(255, 65, 108, 0.2); }
+.topic-card-img { height: 200px; overflow: hidden; }
+.topic-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.topic-card:hover .topic-card-img img { transform: scale(1.1); }
+.topic-card-body { padding: 24px; }
+.topic-badge { display: inline-block; padding: 4px 14px; background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 12px; }
+.topic-card-body h3 { font-size: 1.2rem; margin-bottom: 10px; color: #333; }
+.topic-card-body p { color: #777; font-size: 0.9rem; margin-bottom: 16px; line-height: 1.5; }
+.card-link { color: #ff416c; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.3s ease; }
+.topic-card:hover .card-link { gap: 12px; }
+
+/* ===== LESSON CARDS ===== */
+.lesson-card { background: #fff; border-radius: 20px; padding: 40px 30px; text-align: center; box-shadow: 0 8px 30px rgba(255, 65, 108, 0.1); transition: all 0.4s ease; cursor: pointer; border: 1px solid rgba(255, 65, 108, 0.08); }
+.lesson-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(255, 65, 108, 0.2); }
+.lesson-card-icon { width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #ff416c, #ff4b2b); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #fff; }
+.lesson-card h3 { font-size: 1.15rem; margin-bottom: 10px; }
+.lesson-card p { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
+
+/* ===== MODAL ===== */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: flex-start; padding: 80px 20px 40px; overflow-y: auto; }
+.modal-overlay.show { display: flex; }
+.modal-content { background: #fff; border-radius: 24px; max-width: 900px; width: 100%; padding: 50px; position: relative; animation: bounceIn 0.4s ease; max-height: 85vh; overflow-y: auto; }
+.modal-close { position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 2rem; cursor: pointer; color: #999; transition: color 0.3s; z-index: 10; }
+.modal-close:hover { color: #ff416c; }
+.lesson-detail-title { font-size: 2rem; margin-bottom: 10px; background: linear-gradient(135deg, #ff416c, #ff4b2b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.lesson-detail-img { width: 100%; border-radius: 16px; margin: 20px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.lesson-detail-section { margin-bottom: 24px; }
+.lesson-detail-section h3 { font-size: 1.3rem; color: #ff416c; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.lesson-detail-section p, .lesson-detail-section li { color: #555; line-height: 1.8; font-size: 1rem; }
+.lesson-detail-section ul { padding-left: 20px; list-style: disc; }
+.full-lesson-modal { max-width: 950px; }
+.tts-controls { display: flex; align-items: center; gap: 12px; margin: 20px 0; padding: 16px 24px; background: linear-gradient(135deg, #fff5f5, #fff0f0); border-radius: 16px; border: 1px solid rgba(255, 65, 108, 0.15); }
+.tts-btn { width: 50px; height: 50px; border-radius: 50%; border: none; background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; font-size: 1.2rem; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.tts-btn:hover { transform: scale(1.1); box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4); }
+.tts-btn.playing { animation: pulse 1s infinite; }
+.tts-label { font-weight: 600; color: #ff416c; font-size: 0.95rem; }
+.tts-status { color: #888; font-size: 0.85rem; }
+
+/* ===== VIDEO CARDS ===== */
+.video-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 30px rgba(255, 65, 108, 0.1); transition: all 0.4s ease; border: 1px solid rgba(255, 65, 108, 0.08); }
+.video-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(255, 65, 108, 0.18); }
+.video-card h3 { padding: 20px 24px 10px; font-size: 1.05rem; color: #ff416c; }
+.video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+.video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+/* ===== TEST SECTION ===== */
+.test-topic-selector { display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+.test-container { max-width: 800px; margin: 0 auto; }
+.test-question { background: #fff; border-radius: 16px; padding: 28px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-left: 4px solid #ff416c; transition: all 0.3s ease; }
+.test-question:hover { box-shadow: 0 8px 25px rgba(255, 65, 108, 0.12); }
+.test-question h4 { font-size: 1.05rem; margin-bottom: 16px; color: #333; }
+.test-option { display: flex; align-items: center; gap: 12px; padding: 12px 16px; margin-bottom: 8px; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; border: 2px solid #eee; }
+.test-option:hover { border-color: #ff416c; background: rgba(255, 65, 108, 0.04); }
+.test-option.selected { border-color: #ff416c; background: rgba(255, 65, 108, 0.08); }
+.test-option.correct { border-color: #28a745; background: rgba(40, 167, 69, 0.1); }
+.test-option.wrong { border-color: #dc3545; background: rgba(220, 53, 69, 0.1); animation: shake 0.5s ease; }
+.test-option input[type="radio"] { accent-color: #ff416c; width: 18px; height: 18px; }
+.test-submit-area { text-align: center; margin-top: 30px; }
+.test-result { max-width: 800px; margin: 30px auto 0; padding: 30px; border-radius: 16px; text-align: center; animation: bounceIn 0.5s ease; }
+.test-result.good { background: linear-gradient(135deg, #d4edda, #c3e6cb); border: 2px solid #28a745; }
+.test-result.bad { background: linear-gradient(135deg, #f8d7da, #f5c6cb); border: 2px solid #dc3545; }
+.test-result h3 { font-size: 1.8rem; margin-bottom: 10px; }
+.test-result p { font-size: 1.1rem; }
+
+/* ===== RATING ===== */
+.rating-section { max-width: 800px; margin: 60px auto 0; }
+.rating-section h3 { text-align: center; font-size: 1.5rem; margin-bottom: 20px; color: #ff416c; }
+.rating-table { width: 100%; border-collapse: collapse; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+.rating-table th { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; padding: 14px 20px; text-align: left; font-weight: 700; }
+.rating-table td { padding: 12px 20px; border-bottom: 1px solid #f0f0f0; }
+.rating-table tr:hover td { background: rgba(255, 65, 108, 0.04); }
+.rating-table .rank-1 td { background: rgba(255, 215, 0, 0.1); }
+.rating-table .rank-2 td { background: rgba(192, 192, 192, 0.1); }
+.rating-table .rank-3 td { background: rgba(205, 127, 50, 0.1); }
+.medal { font-size: 1.3rem; }
+
+/* ===== LEVEL GAMES ===== */
+.level-buttons { display: flex; justify-content: center; gap: 16px; margin-bottom: 40px; flex-wrap: wrap; }
+.level-btn { padding: 14px 32px; border-radius: 14px; font-weight: 700; font-size: 1rem; cursor: pointer; border: 2px solid transparent; transition: all 0.3s ease; font-family: 'Montserrat', sans-serif; }
+.level-easy { background: #e8f5e9; color: #2e7d32; border-color: #4caf50; }
+.level-easy:hover { background: #4caf50; color: #fff; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3); }
+.level-medium { background: #fff8e1; color: #f57f17; border-color: #ffc107; }
+.level-medium:hover { background: #ffc107; color: #fff; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(255, 193, 7, 0.3); }
+.level-hard { background: #ffebee; color: #c62828; border-color: #f44336; }
+.level-hard:hover { background: #f44336; color: #fff; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(244, 67, 54, 0.3); }
+.game-container { max-width: 800px; margin: 0 auto; min-height: 100px; }
+.game-score { text-align: center; font-size: 1.2rem; font-weight: 700; color: #ff416c; margin-top: 20px; }
+
+/* Drag and Drop */
+.drag-game { padding: 20px; }
+.drag-game h4 { text-align: center; margin-bottom: 20px; font-size: 1.2rem; color: #333; }
+.drag-items { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 30px; }
+.drag-item { padding: 12px 24px; background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; border-radius: 12px; cursor: grab; font-weight: 600; transition: all 0.3s ease; user-select: none; font-size: 0.95rem; }
+.drag-item:active { cursor: grabbing; transform: scale(1.05); }
+.drag-item.dragging { opacity: 0.5; }
+.drop-zones { display: flex; flex-direction: column; gap: 12px; }
+.drop-zone { display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: #f8f9fa; border: 2px dashed #ddd; border-radius: 12px; min-height: 60px; transition: all 0.3s ease; }
+.drop-zone.drag-over { border-color: #ff416c; background: rgba(255, 65, 108, 0.05); }
+.drop-zone.correct { border-color: #28a745; background: rgba(40, 167, 69, 0.1); border-style: solid; }
+.drop-zone.wrong { border-color: #dc3545; background: rgba(220, 53, 69, 0.1); border-style: solid; animation: shake 0.5s ease; }
+.drop-label { font-weight: 600; color: #666; min-width: 120px; }
+.drop-area { flex: 1; min-height: 40px; display: flex; align-items: center; justify-content: center; color: #aaa; font-style: italic; }
+.drop-area .drag-item { cursor: default; }
+
+/* Match Game */
+.match-game { padding: 20px; }
+.match-game h4 { text-align: center; margin-bottom: 20px; font-size: 1.2rem; }
+.match-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.match-col h5 { text-align: center; margin-bottom: 12px; color: #ff416c; font-size: 1rem; }
+.match-item { padding: 14px 20px; margin-bottom: 10px; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: center; font-weight: 600; font-size: 0.95rem; }
+.match-item-left { background: #fff; border: 2px solid #ff416c; color: #ff416c; }
+.match-item-right { background: #fff; border: 2px solid #666; color: #666; }
+.match-item.selected { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; transform: scale(1.03); }
+.match-item.matched { background: #28a745; border-color: #28a745; color: #fff; pointer-events: none; }
+.match-item.wrong-match { animation: shake 0.5s ease; border-color: #dc3545; }
+
+/* Word Search */
+.word-search-game { padding: 20px; text-align: center; }
+.word-search-game h4 { margin-bottom: 10px; font-size: 1.2rem; }
+.word-search-clue { font-size: 1.1rem; color: #666; margin-bottom: 20px; }
+.word-grid { display: inline-grid; gap: 4px; margin-bottom: 20px; }
+.word-cell { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: #f0f0f0; border-radius: 8px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: all 0.2s ease; user-select: none; color: #333; }
+.word-cell:hover { background: #ffe0e6; }
+.word-cell.selected { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; }
+.word-cell.found { background: #28a745; color: #fff; }
+.words-to-find { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 16px; }
+.word-tag { padding: 6px 16px; background: #f0f0f0; border-radius: 20px; font-weight: 600; font-size: 0.9rem; color: #666; }
+.word-tag.found { background: #28a745; color: #fff; text-decoration: line-through; }
+
+/* Order Game */
+.order-game { padding: 20px; }
+.order-game h4 { text-align: center; margin-bottom: 20px; font-size: 1.2rem; }
+.order-items { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+.order-item { display: flex; align-items: center; gap: 12px; padding: 14px 20px; background: #fff; border: 2px solid #eee; border-radius: 12px; cursor: grab; transition: all 0.3s ease; font-weight: 600; }
+.order-item:active { cursor: grabbing; }
+.order-item.dragging { opacity: 0.5; border-color: #ff416c; }
+.order-item .order-num { width: 32px; height: 32px; background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+.game-check-btn { display: block; margin: 24px auto 0; padding: 12px 32px; background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; border: none; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; font-family: 'Montserrat', sans-serif; }
+.game-check-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 65, 108, 0.4); }
+
+/* ===== NOTEBOOK ===== */
+.notebook-card { background: #fff; border-radius: 20px; padding: 30px; box-shadow: 0 8px 30px rgba(255, 65, 108, 0.1); border: 1px solid rgba(255, 65, 108, 0.08); transition: all 0.3s ease; }
+.notebook-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(255, 65, 108, 0.15); }
+.notebook-icon { width: 60px; height: 60px; background: linear-gradient(135deg, #ff416c, #ff4b2b); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff; margin-bottom: 16px; }
+.notebook-card h3 { font-size: 1.15rem; margin-bottom: 20px; color: #333; }
+.notebook-tasks { margin-bottom: 20px; }
+.nb-task { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid #f0f0f0; align-items: flex-start; }
+.nb-task:last-child { border-bottom: none; }
+.nb-num { width: 30px; height: 30px; background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; margin-top: 2px; }
+.nb-task p { font-size: 0.9rem; color: #555; line-height: 1.5; }
+.nb-deadline { color: #ff416c !important; font-weight: 600; font-size: 0.85rem !important; margin-top: 6px; }
+
+/* ===== KMJ CARDS ===== */
+.kmj-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 30px rgba(255, 65, 108, 0.1); border: 1px solid rgba(255, 65, 108, 0.08); transition: all 0.3s ease; }
+.kmj-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(255, 65, 108, 0.15); }
+.kmj-header { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; padding: 24px; display: flex; align-items: center; gap: 12px; }
+.kmj-header i { font-size: 1.5rem; }
+.kmj-header h3 { font-size: 1.05rem; }
+.kmj-body { padding: 24px; }
+.kmj-item { margin-bottom: 16px; font-size: 0.9rem; color: #555; line-height: 1.6; }
+.kmj-item strong { color: #333; }
+.kmj-item ul { padding-left: 20px; margin-top: 6px; list-style: disc; }
+.kmj-item li { margin-bottom: 4px; }
+.kmj-card .btn { margin: 0 24px 24px; }
+
+/* ===== CONTACT ===== */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 900px; margin: 0 auto; }
+.contact-card { background: #fff; border-radius: 20px; padding: 40px 30px; text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,0.06); transition: all 0.3s ease; }
+.contact-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+.contact-icon { width: 80px; height: 80px; margin: 0 auto 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #fff; }
+.whatsapp-icon { background: #25d366; }
+.location-icon { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+.contact-card h3 { font-size: 1.3rem; margin-bottom: 8px; }
+.contact-card p { color: #888; margin-bottom: 20px; }
+.map-wrapper { border-radius: 12px; overflow: hidden; margin-top: 16px; }
+
+/* ===== FOOTER & CHATBOT ===== */
+.footer { background: #1a1a1a; color: #fff; padding: 60px 0 30px; }
+.chatbot-section { max-width: 700px; margin: 0 auto 40px; text-align: center; }
+.chatbot-section h3 { font-size: 1.5rem; margin-bottom: 8px; color: #ff416c; }
+.chatbot-section > p { color: #aaa; margin-bottom: 24px; font-size: 0.95rem; }
+.chatbot-window { background: #2a2a2a; border-radius: 20px; overflow: hidden; border: 1px solid #333; }
+.chat-messages { height: 300px; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.chat-msg { display: flex; gap: 10px; align-items: flex-start; animation: fadeUp 0.3s ease; }
+.chat-msg.user-msg { flex-direction: row-reverse; }
+.msg-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; }
+.bot-msg .msg-avatar { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; }
+.user-msg .msg-avatar { background: #444; color: #fff; }
+.msg-bubble { padding: 12px 18px; border-radius: 16px; max-width: 80%; font-size: 0.9rem; line-height: 1.5; }
+.bot-msg .msg-bubble { background: #333; color: #eee; border-bottom-left-radius: 4px; }
+.user-msg .msg-bubble { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; border-bottom-right-radius: 4px; }
+.chat-input-area { display: flex; padding: 16px; gap: 10px; border-top: 1px solid #333; }
+.chat-input-area input { flex: 1; padding: 12px 18px; border-radius: 12px; border: 1px solid #444; background: #333; color: #fff; font-size: 0.95rem; outline: none; transition: border-color 0.3s; }
+.chat-input-area input:focus { border-color: #ff416c; }
+.chat-send-btn { width: 48px; height: 48px; border-radius: 12px; border: none; background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; }
+.chat-send-btn:hover { transform: scale(1.05); }
+.footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #333; color: #666; font-size: 0.85rem; }
+
+/* ===== CONFETTI ===== */
+#confettiCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f0f0f0; }
+::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #ff416c, #ff4b2b); border-radius: 4px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) {
+    .nav-toggle { display: flex; }
+    .nav-menu { display: none; position: absolute; top: 70px; left: 0; width: 100%; background: #fff; flex-direction: column; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); gap: 4px; }
+    .nav-menu.show { display: flex; }
+    .hero-title { font-size: 2.2rem; }
+    .hero-subtitle { font-size: 1rem; }
+    .section-title { font-size: 1.8rem; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .match-columns { grid-template-columns: 1fr; }
+    .modal-content { padding: 30px 20px; margin: 10px; }
+    .tts-controls { flex-direction: column; text-align: center; }
+    .word-cell { width: 36px; height: 36px; font-size: 0.9rem; }
+}
+@media (max-width: 480px) {
+    .hero-title { font-size: 1.8rem; }
+    .btn { padding: 12px 24px; font-size: 0.9rem; }
+    .test-topic-selector { flex-direction: column; align-items: center; }
+    .level-buttons { flex-direction: column; align-items: center; }
+}
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="#home" class="nav-logo">
+            <span class="logo-icon">📚</span> INF6.KZ
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="#home" class="nav-link active">Басты бет</a></li>
+            <li><a href="#lessons" class="nav-link">Сабақтар</a></li>
+            <li><a href="#videos" class="nav-link">Бейнесабақ</a></li>
+            <li><a href="#tests" class="nav-link">Тест</a></li>
+            <li><a href="#levels" class="nav-link">Деңгейлік тапсырма</a></li>
+            <li><a href="#notebook" class="nav-link">Дәптермен жұмыс</a></li>
+            <li><a href="#kmj" class="nav-link">ҚМЖ</a></li>
+            <li><a href="#contact" class="nav-link">Байланыс</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 class="hero-title animate-fade-up">INF6.KZ онлайн кітапша</h1>
+        <p class="hero-subtitle animate-fade-up delay-1">6-сынып информатика пәніне арналған интерактивті білім беру платформасы</p>
+        <a href="#lessons" class="btn btn-primary animate-fade-up delay-2">Сабақтарды бастау <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="hero-bg-img">
+        <img src="https://mgx-backend-cdn.metadl.com/generate/images/997213/2026-03-01/3b2f3fd5-dcbd-4aec-b6cd-f72ada485e8f.png" alt="Hero Banner">
+    </div>
+</section>
+
+<!-- TOPICS OVERVIEW -->
+<section class="section topics-overview" id="topics-overview">
+    <div class="container">
+        <h2 class="section-title">Тақырыптар</h2>
+        <p class="section-desc">3 негізгі тақырып бойынша толық білім алыңыз</p>
+        <div class="cards-grid">
+            <div class="topic-card" onclick="openLessonDetail(0)">
+                <div class="topic-card-img">
+                    <img src="https://mgx-backend-cdn.metadl.com/generate/images/997213/2026-03-01/931589bf-51ce-4930-ab2b-16c227b85b10.png" alt="Алгоритмдер">
+                </div>
+                <div class="topic-card-body">
+                    <span class="topic-badge">Тақырып 1</span>
+                    <h3>Алгоритмдер және блок-схемалар</h3>
+                    <p>Алгоритмдердің түрлері, блок-схемалар құру, тізбекті, тармақталу және циклдік алгоритмдер.</p>
+                    <span class="card-link">Толығырақ <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+            <div class="topic-card" onclick="openLessonDetail(1)">
+                <div class="topic-card-img">
+                    <img src="https://mgx-backend-cdn.metadl.com/generate/images/997213/2026-03-01/707cc8e8-e13f-4c40-84d4-91d8d25dce15.png" alt="Scratch">
+                </div>
+                <div class="topic-card-body">
+                    <span class="topic-badge">Тақырып 2</span>
+                    <h3>Scratch бағдарламалау негіздері</h3>
+                    <p>Scratch ортасында бағдарлама жасау, спрайттар, циклдер, шарттар және оқиғалар.</p>
+                    <span class="card-link">Толығырақ <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+            <div class="topic-card" onclick="openLessonDetail(2)">
+                <div class="topic-card-img">
+                    <img src="https://mgx-backend-cdn.metadl.com/generate/images/997213/2026-03-01/f3c02346-51cd-45dd-9a8e-3df2d214101c.png" alt="Желілер">
+                </div>
+                <div class="topic-card-body">
+                    <span class="topic-badge">Тақырып 3</span>
+                    <h3>Компьютерлік желілер</h3>
+                    <p>Интернет, желі түрлері, IP-адрес, браузерлер, қауіпсіздік және деректерді қорғау.</p>
+                    <span class="card-link">Толығырақ <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LESSON DETAIL MODAL -->
+<div class="modal-overlay" id="lessonModal">
+    <div class="modal-content lesson-modal-content">
+        <button class="modal-close" onclick="closeLessonModal()">&times;</button>
+        <div id="lessonDetailContent"></div>
+    </div>
+</div>
+
+<!-- САБАҚТАР -->
+<section class="section" id="lessons">
+    <div class="container">
+        <h2 class="section-title">📖 Сабақтар</h2>
+        <p class="section-desc">Тақырыпты таңдап, толық сабақты оқыңыз. Жасанды интеллект сізге сабақты оқып береді!</p>
+        <div class="cards-grid">
+            <div class="lesson-card" onclick="openFullLesson(0)">
+                <div class="lesson-card-icon"><i class="fas fa-project-diagram"></i></div>
+                <h3>Алгоритмдер және блок-схемалар</h3>
+                <p>Алгоритмдердің анықтамасы, қасиеттері, түрлері және блок-схемалар.</p>
+                <span class="card-link">Сабақты ашу <i class="fas fa-book-open"></i></span>
+            </div>
+            <div class="lesson-card" onclick="openFullLesson(1)">
+                <div class="lesson-card-icon"><i class="fas fa-puzzle-piece"></i></div>
+                <h3>Scratch бағдарламалау негіздері</h3>
+                <p>Scratch ортасы, блоктар, спрайттар және алғашқы бағдарлама жасау.</p>
+                <span class="card-link">Сабақты ашу <i class="fas fa-book-open"></i></span>
+            </div>
+            <div class="lesson-card" onclick="openFullLesson(2)">
+                <div class="lesson-card-icon"><i class="fas fa-network-wired"></i></div>
+                <h3>Компьютерлік желілер</h3>
+                <p>Желі түрлері, Интернет, IP-адрес, браузерлер және қауіпсіздік.</p>
+                <span class="card-link">Сабақты ашу <i class="fas fa-book-open"></i></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FULL LESSON MODAL -->
+<div class="modal-overlay" id="fullLessonModal">
+    <div class="modal-content full-lesson-modal">
+        <button class="modal-close" onclick="closeFullLessonModal()">&times;</button>
+        <div id="fullLessonContent"></div>
+    </div>
+</div>
+
+<!-- БЕЙНЕСАБАҚ -->
+<section class="section section-alt" id="videos">
+    <div class="container">
+        <h2 class="section-title">🎬 Бейнесабақтар</h2>
+        <p class="section-desc">Әр тақырып бойынша қазақша бейнесабақтар</p>
+        <div class="cards-grid">
+            <div class="video-card">
+                <h3><i class="fas fa-play-circle"></i> Алгоритмдер және блок-схемалар</h3>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/SExR9JHxKHQ" title="Алгоритмдер" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="video-card">
+                <h3><i class="fas fa-play-circle"></i> Scratch бағдарламалау</h3>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/R1RH-KdXcls" title="Scratch" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="video-card">
+                <h3><i class="fas fa-play-circle"></i> Компьютерлік желілер</h3>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/O1-z6oU3mlA" title="Желілер" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ТЕСТ -->
+<section class="section" id="tests">
+    <div class="container">
+        <h2 class="section-title">📝 Тест</h2>
+        <p class="section-desc">Әр тақырып бойынша 10 сұрақтан тест тапсырыңыз</p>
+        <div class="test-topic-selector">
+            <button class="btn btn-outline active" onclick="loadTest(0, this)">Алгоритмдер</button>
+            <button class="btn btn-outline" onclick="loadTest(1, this)">Scratch</button>
+            <button class="btn btn-outline" onclick="loadTest(2, this)">Желілер</button>
+        </div>
+        <div id="testContainer" class="test-container"></div>
+        <div id="testResult" class="test-result" style="display:none;"></div>
+        <div class="rating-section">
+            <h3><i class="fas fa-trophy"></i> Оқушылар рейтингі</h3>
+            <div id="ratingTable"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ДЕҢГЕЙЛІК ТАПСЫРМА -->
+<section class="section section-alt" id="levels">
+    <div class="container">
+        <h2 class="section-title">🎮 Деңгейлік тапсырма</h2>
+        <p class="section-desc">Ойын түрінде тапсырмалар орындаңыз</p>
+        <div class="test-topic-selector">
+            <button class="btn btn-outline active" onclick="loadLevelTopic(0, this)">Алгоритмдер</button>
+            <button class="btn btn-outline" onclick="loadLevelTopic(1, this)">Scratch</button>
+            <button class="btn btn-outline" onclick="loadLevelTopic(2, this)">Желілер</button>
+        </div>
+        <div class="level-buttons">
+            <button class="level-btn level-easy" onclick="startGame('easy')">🟢 Оңай</button>
+            <button class="level-btn level-medium" onclick="startGame('medium')">🟡 Орташа</button>
+            <button class="level-btn level-hard" onclick="startGame('hard')">🔴 Қиын</button>
+        </div>
+        <div id="gameContainer" class="game-container"></div>
+        <div id="gameScore" class="game-score"></div>
+    </div>
+</section>
+
+<!-- ДӘПТЕРМЕН ЖҰМЫС -->
+<section class="section" id="notebook">
+    <div class="container">
+        <h2 class="section-title">📓 Дәптермен жұмыс</h2>
+        <p class="section-desc">Практикалық тапсырмаларды орындап, жүктеп алыңыз</p>
+        <div class="cards-grid">
+            <div class="notebook-card">
+                <div class="notebook-icon"><i class="fas fa-project-diagram"></i></div>
+                <h3>Алгоритмдер — Практика</h3>
+                <div class="notebook-tasks">
+                    <div class="nb-task"><span class="nb-num">1</span><div><p><strong>Тапсырма:</strong> Шай дайындау алгоритмін жазып, блок-схемасын салыңыз.</p><p class="nb-deadline"><i class="fas fa-clock"></i> Дедлайн: 2026-03-15, 23:59</p></div></div>
+                    <div class="nb-task"><span class="nb-num">2</span><div><p><strong>Тапсырма:</strong> Тармақталу алгоритмі: «Егер ауа-райы жақсы болса, серуенге шық, болмаса үйде қал» блок-схемасын сал.</p><p class="nb-deadline"><i class="fas fa-clock"></i> Дедлайн: 2026-03-15, 23:59</p></div></div>
+                    <div class="nb-task"><span class="nb-num">3</span><div><p><strong>Тапсырма:</strong> Циклдік алгоритм: 1-ден 10-ға дейін санау алгоритмін жаз.</p><p class="nb-deadline"><i class="fas fa-clock"></i> Дедлайн: 2026-03-15, 23:59</p></div></div>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="downloadNotebook(0)"><i class="fas fa-download"></i> Тапсырманы жүктеу (.docx)</button>
+            </div>
+            <div class="notebook-card">
+                <div class="notebook-icon"><i class="fas fa-puzzle-piece"></i></div>
+                <h3>Scratch — Практика</h3>
+                <div class="notebook-tasks">
+                    <div class="nb-task"><span class="nb-num">1</span><div><p><strong>Тапсырма:</strong> Scratch-та мысықты 100 қадам жүргізіп, «Сәлем!» деп айтқызыңыз.</p><p class="nb-deadline"><i class="fas fa-clock"></i> Дедлайн: 2026-03-20, 23:59</p></div></div>
+                    <div class="nb-task"><span class="nb-num">2</span><div><p><strong>Тапсырма:</strong> Scratch-та квадрат сызатын бағдарлама жасаңыз (цикл қолданыңыз).</p><p class="nb-deadline"><i class="fas fa-clock"></i> Дедлайн: 2026-03-20, 23:59</p></div></div>
+                    <div class="nb-task"><span class="nb-num">3</span><div><p><strong>Тапсырма:</strong> Scratch-та «Егер жасыл жалаушаны бассаң» оқиғасымен анимация жаса.</p><p class="nb-deadline"><i class="fas fa-clock"></i> Дедлайн: 2026-03-20, 23:59</p></div></div>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="downloadNotebook(1)"><i class="fas fa-download"></i> Тапсырманы жүктеу (.docx)</button>
+            </div>
+            <div class="notebook-card">
+                <div class="notebook-icon"><i class="fas fa-network-wired"></i></div>
+                <h3>Желілер — Практика</h3>
+                <div class="notebook-tasks">
+                    <div class="nb-task"><span class="nb-num">1</span><div><p><strong>Тапсырма:</strong> Өз компьютеріңнің IP-адресін тауып жаз.</p><p class="nb-deadline"><i class="fas fa-clock"></i> Дедлайн: 2026-03-25, 23:59</p></div></div>
+                    <div class="nb-task"><span class="nb-num">2</span><div><p><strong>Тапсырма:</strong> LAN және WAN желілерінің айырмашылығын кесте түрінде жаз.</p><p class="nb-deadline"><i class="fas fa-clock"></i> Дедлайн: 2026-03-25, 23:59</p></div></div>
+                    <div class="nb-task"><span class="nb-num">3</span><div><p><strong>Тапсырма:</strong> Интернетте қауіпсіз болу ережелерін 5 тармақпен жаз.</p><p class="nb-deadline"><i class="fas fa-clock"></i> Дедлайн: 2026-03-25, 23:59</p></div></div>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="downloadNotebook(2)"><i class="fas fa-download"></i> Тапсырманы жүктеу (.docx)</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ҚМЖ -->
+<section class="section section-alt" id="kmj">
+    <div class="container">
+        <h2 class="section-title">📋 Қысқа мерзімді жоспар (ҚМЖ)</h2>
+        <p class="section-desc">3 тақырып бойынша ҚМЖ жоспарлары</p>
+        <div class="cards-grid">
+            <div class="kmj-card">
+                <div class="kmj-header"><i class="fas fa-file-alt"></i><h3>Алгоритмдер және блок-схемалар</h3></div>
+                <div class="kmj-body">
+                    <div class="kmj-item"><strong>Сабақ мақсаты:</strong> Оқушылар алгоритмнің анықтамасын біледі, блок-схема элементтерін ажыратады, тізбекті алгоритм құра алады.</div>
+                    <div class="kmj-item"><strong>Сабақ кезеңдері:</strong><ul><li>Ұйымдастыру (3 мин)</li><li>Жаңа тақырыпты түсіндіру (15 мин)</li><li>Практикалық жұмыс — блок-схема құру (15 мин)</li><li>Бекіту — тест (5 мин)</li><li>Қорытынды, бағалау (2 мин)</li></ul></div>
+                    <div class="kmj-item"><strong>Бағалау:</strong> Формативті бағалау — блок-схеманы дұрыс құру, тест нәтижесі.</div>
+                    <div class="kmj-item"><strong>Ресурстар:</strong> Компьютер, проектор, оқулық, жұмыс дәптері, интерактивті тақта.</div>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="downloadKMJ(0)"><i class="fas fa-file-word"></i> Word форматында жүктеу</button>
+            </div>
+            <div class="kmj-card">
+                <div class="kmj-header"><i class="fas fa-file-alt"></i><h3>Scratch бағдарламалау негіздері</h3></div>
+                <div class="kmj-body">
+                    <div class="kmj-item"><strong>Сабақ мақсаты:</strong> Оқушылар Scratch ортасымен танысады, блоктарды қолданып қарапайым бағдарлама жасай алады.</div>
+                    <div class="kmj-item"><strong>Сабақ кезеңдері:</strong><ul><li>Ұйымдастыру (3 мин)</li><li>Scratch ортасын таныстыру (10 мин)</li><li>Практика — спрайтты жүргізу (17 мин)</li><li>Шығармашылық тапсырма (8 мин)</li><li>Қорытынды, бағалау (2 мин)</li></ul></div>
+                    <div class="kmj-item"><strong>Бағалау:</strong> Формативті — бағдарламаның жұмыс істеуі, шығармашылық тапсырма.</div>
+                    <div class="kmj-item"><strong>Ресурстар:</strong> Компьютер, Scratch онлайн (scratch.mit.edu), проектор, оқулық.</div>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="downloadKMJ(1)"><i class="fas fa-file-word"></i> Word форматында жүктеу</button>
+            </div>
+            <div class="kmj-card">
+                <div class="kmj-header"><i class="fas fa-file-alt"></i><h3>Компьютерлік желілер</h3></div>
+                <div class="kmj-body">
+                    <div class="kmj-item"><strong>Сабақ мақсаты:</strong> Оқушылар желі түрлерін ажыратады, IP-адрес ұғымын біледі, интернет қауіпсіздігін түсінеді.</div>
+                    <div class="kmj-item"><strong>Сабақ кезеңдері:</strong><ul><li>Ұйымдастыру (3 мин)</li><li>Жаңа тақырып — желі түрлері (12 мин)</li><li>Топтық жұмыс — желі схемасын құру (13 мин)</li><li>Қауіпсіздік ережелерін талқылау (7 мин)</li><li>Бекіту, бағалау (5 мин)</li></ul></div>
+                    <div class="kmj-item"><strong>Бағалау:</strong> Формативті — топтық жұмыс, ауызша жауап.</div>
+                    <div class="kmj-item"><strong>Ресурстар:</strong> Компьютер, проектор, оқулық, интернет, плакаттар.</div>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="downloadKMJ(2)"><i class="fas fa-file-word"></i> Word форматында жүктеу</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- БАЙЛАНЫС -->
+<section class="section" id="contact">
+    <div class="container">
+        <h2 class="section-title">📞 Оқытушымен байланыс</h2>
+        <p class="section-desc">Сұрақтарыңыз болса, бізге хабарласыңыз</p>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon whatsapp-icon"><i class="fab fa-whatsapp"></i></div>
+                <h3>WhatsApp</h3>
+                <p>Тікелей хабарлама жіберіңіз</p>
+                <a href="https://wa.me/77057004250" target="_blank" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp арқылы жазу</a>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon location-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <h3>Біздің мекенжай</h3>
+                <p>Төле би 86</p>
+                <div class="map-wrapper">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2906.5!2d76.945!3d43.238!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDPCsDE0JzE2LjgiTiA3NsKwNTYnNDIuMCJF!5e0!3m2!1skk!2skz!4v1" width="100%" height="250" style="border:0; border-radius:12px;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER WITH CHATBOT -->
+<footer class="footer" id="footer">
+    <div class="container">
+        <div class="chatbot-section">
+            <h3><i class="fas fa-robot"></i> Информатика чат-боты</h3>
+            <p>Кез келген информатика сұрағыңызды жазыңыз — бот қазақша жауап береді!</p>
+            <div class="chatbot-window" id="chatbotWindow">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-msg bot-msg">
+                        <div class="msg-avatar"><i class="fas fa-robot"></i></div>
+                        <div class="msg-bubble">Сәлеметсіз бе! Мен информатика бойынша көмекші ботпын. Сұрағыңызды жазыңыз! 🤖</div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chatInput" placeholder="Сұрағыңызды жазыңыз..." onkeypress="if(event.key==='Enter')sendChat()">
+                    <button onclick="sendChat()" class="chat-send-btn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 INF6.KZ — 6-сынып Информатика онлайн кітапша. Барлық құқықтар қорғалған.</p>
+        </div>
+    </div>
+</footer>
+
+<canvas id="confettiCanvas"></canvas>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.2.0/docx.min.js"></script>
+<script>
+// ===== INF6.KZ - Main JavaScript =====
+
+document.addEventListener('DOMContentLoaded', function () {
+    initNavbar();
+    initScrollAnimations();
+    loadTest(0, document.querySelector('.test-topic-selector .btn-outline'));
+    loadRating();
+    currentLevelTopic = 0;
+});
+
+function initNavbar() {
+    var toggle = document.getElementById('navToggle');
+    var menu = document.getElementById('navMenu');
+    var links = document.querySelectorAll('.nav-link');
+    toggle.addEventListener('click', function() { menu.classList.toggle('show'); });
+    links.forEach(function(link) {
+        link.addEventListener('click', function() {
+            menu.classList.remove('show');
+            links.forEach(function(l) { l.classList.remove('active'); });
+            link.classList.add('active');
+        });
+    });
+    window.addEventListener('scroll', function() {
+        var sections = document.querySelectorAll('section[id]');
+        var current = '';
+        sections.forEach(function(section) {
+            if (window.scrollY >= section.offsetTop - 100) current = section.getAttribute('id');
+        });
+        links.forEach(function(link) {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+        });
+    });
+}
+
+function initScrollAnimations() {
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.topic-card, .lesson-card, .video-card, .notebook-card, .kmj-card, .contact-card').forEach(function(el) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s ease';
+        observer.observe(el);
+    });
+}
+
+// ===== LESSON DATA =====
+var lessonDetails = [
+    {
+        title: 'Алгоритмдер және блок-схемалар',
+        image: 'https://mgx-backend-cdn.metadl.com/generate/images/997213/2026-03-01/931589bf-51ce-4930-ab2b-16c227b85b10.png',
+        sections: [
+            { heading: '📌 Алгоритм дегеніміз не?', content: 'Алгоритм — белгілі бір мақсатқа жету үшін орындалатын нақты қадамдар тізбегі. Мысалы, таңертең мектепке дайындалу — бұл да алгоритм: ояну → тіс тазалау → киіну → таңғы ас → мектепке бару.' },
+            { heading: '📐 Алгоритмнің қасиеттері', content: '<ul><li><strong>Нақтылық</strong> — әр қадам анық болуы керек</li><li><strong>Түсініктілік</strong> — орындаушы түсіне алуы керек</li><li><strong>Нәтижелілік</strong> — шектеулі қадамда нәтиже беруі керек</li><li><strong>Жалпылық</strong> — ұқсас есептер тобына қолданылуы керек</li></ul>' },
+            { heading: '🔀 Алгоритм түрлері', content: '<ul><li><strong>Тізбекті алгоритм</strong> — қадамдар бірінен соң бірі орындалады.</li><li><strong>Тармақталу алгоритмі</strong> — шарт бойынша екі жолдың бірі таңдалады.</li><li><strong>Циклдік алгоритм</strong> — белгілі бір әрекет бірнеше рет қайталанады.</li></ul>' },
+            { heading: '📊 Блок-схема элементтері', content: '<ul><li><strong>Овал (⬭)</strong> — Басы / Соңы</li><li><strong>Тіктөртбұрыш (▭)</strong> — Әрекет / Процесс</li><li><strong>Ромб (◇)</strong> — Шарт (иә/жоқ)</li><li><strong>Параллелограмм (▱)</strong> — Деректерді енгізу/шығару</li></ul>' }
+        ]
+    },
+    {
+        title: 'Scratch бағдарламалау негіздері',
+        image: 'https://mgx-backend-cdn.metadl.com/generate/images/997213/2026-03-01/707cc8e8-e13f-4c40-84d4-91d8d25dce15.png',
+        sections: [
+            { heading: '🐱 Scratch дегеніміз не?', content: 'Scratch — MIT жасаған визуалды бағдарламалау ортасы. Блоктарды біріктіру арқылы анимация, ойын, әңгіме жасауға болады. Ресми сайт: scratch.mit.edu' },
+            { heading: '🎨 Scratch интерфейсі', content: '<ul><li><strong>Сахна (Stage)</strong> — спрайттар қозғалатын аймақ</li><li><strong>Спрайт (Sprite)</strong> — кейіпкер немесе объект</li><li><strong>Блоктар палитрасы</strong> — бағдарлама блоктары орналасқан жер</li><li><strong>Скрипт аймағы</strong> — блоктарды біріктіретін жұмыс алаңы</li></ul>' },
+            { heading: '🧩 Негізгі блок категориялары', content: '<ul><li><strong>Қозғалыс</strong> — спрайтты жылжыту, бұру</li><li><strong>Көрініс</strong> — сөйлеу, костюм ауыстыру</li><li><strong>Дыбыс</strong> — дыбыс ойнату</li><li><strong>Оқиғалар</strong> — жалаушаны басу, пернені басу</li><li><strong>Басқару</strong> — циклдер, шарттар, күту</li></ul>' },
+            { heading: '🚀 Алғашқы бағдарлама', content: '1. «Жасыл жалаушаны басқанда» оқиғасын қос<br>2. «10 рет қайтала» циклін қос<br>3. Цикл ішіне «10 қадам жүр» блогын қос<br>4. «15 градусқа бұрыл» блогын қос<br>5. Жасыл жалаушаны бас — мысық шеңбер бойымен жүреді!' }
+        ]
+    },
+    {
+        title: 'Компьютерлік желілер',
+        image: 'https://mgx-backend-cdn.metadl.com/generate/images/997213/2026-03-01/f3c02346-51cd-45dd-9a8e-3df2d214101c.png',
+        sections: [
+            { heading: '🌐 Компьютерлік желі дегеніміз не?', content: 'Компьютерлік желі — екі немесе одан көп компьютерлердің ақпарат алмасу мақсатында өзара байланысуы. Желі арқылы файл жіберу, интернетке шығу, хабарлама алмасу мүмкін.' },
+            { heading: '📡 Желі түрлері', content: '<ul><li><strong>LAN (Local Area Network)</strong> — жергілікті желі. Бір ғимарат ішіндегі компьютерлер.</li><li><strong>WAN (Wide Area Network)</strong> — ауқымды желі. Қалалар мен елдерді байланыстырады.</li><li><strong>Wi-Fi</strong> — сымсыз жергілікті желі. Роутер арқылы қосылу.</li></ul>' },
+            { heading: '🔢 IP-адрес', content: 'IP-адрес — желідегі әр құрылғының бірегей мекенжайы. Мысалы: 192.168.1.1. Бұл пошта мекенжайы сияқты — деректер дәл сол құрылғыға жетеді.' },
+            { heading: '🛡️ Интернет қауіпсіздігі', content: '<ul><li>Күрделі құпиясөз қолданыңыз</li><li>Бейтаныс сілтемелерді баспаңыз</li><li>Жеке мәліметтерді бөлісуден сақ болыңыз</li><li>Антивирус бағдарламасын қолданыңыз</li><li>Бағдарламаларды тек ресми сайттардан жүктеңіз</li></ul>' }
+        ]
+    }
+];
+
+function openLessonDetail(index) {
+    var lesson = lessonDetails[index];
+    var html = '<h2 class="lesson-detail-title">' + lesson.title + '</h2>';
+    html += '<img src="' + lesson.image + '" alt="' + lesson.title + '" class="lesson-detail-img">';
+    lesson.sections.forEach(function(s) {
+        html += '<div class="lesson-detail-section"><h3>' + s.heading + '</h3><div>' + s.content + '</div></div>';
+    });
+    document.getElementById('lessonDetailContent').innerHTML = html;
+    document.getElementById('lessonModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLessonModal() {
+    document.getElementById('lessonModal').classList.remove('show');
+    document.body.style.overflow = '';
+}
+
+var currentUtterance = null;
+var isSpeaking = false;
+
+function openFullLesson(index) {
+    var lesson = lessonDetails[index];
+    var plainText = '';
+    var html = '<h2 class="lesson-detail-title">' + lesson.title + '</h2>';
+    html += '<div class="tts-controls"><button class="tts-btn" id="ttsBtn" onclick="toggleTTS()"><i class="fas fa-play"></i></button>';
+    html += '<div><div class="tts-label">🔊 Аудиосабақ — Жасанды интеллект оқиды</div><div class="tts-status" id="ttsStatus">Тыңдау үшін ▶ батырмасын басыңыз</div></div></div>';
+    html += '<img src="' + lesson.image + '" alt="' + lesson.title + '" class="lesson-detail-img">';
+    lesson.sections.forEach(function(s) {
+        plainText += s.heading.replace(/[📌📐🔀📊🐱🎨🧩🚀🌐📡🔢🛡️]/g, '') + '. ' + s.content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim() + '. ';
+        html += '<div class="lesson-detail-section"><h3>' + s.heading + '</h3><div>' + s.content + '</div></div>';
+    });
+    document.getElementById('fullLessonContent').innerHTML = html;
+    document.getElementById('fullLessonModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+    window.currentLessonText = plainText;
+    stopTTS();
+}
+
+function closeFullLessonModal() {
+    document.getElementById('fullLessonModal').classList.remove('show');
+    document.body.style.overflow = '';
+    stopTTS();
+}
+
+function toggleTTS() { isSpeaking ? stopTTS() : startTTS(); }
+
+function startTTS() {
+    if (!window.currentLessonText) return;
+    if (!('speechSynthesis' in window)) { alert('Браузеріңіз дыбыстық оқуды қолдамайды.'); return; }
+    stopTTS();
+    var chunks = window.currentLessonText.match(/[^.!?]+[.!?]+/g) || [window.currentLessonText];
+    var chunkIndex = 0;
+    function speakNext() {
+        if (chunkIndex >= chunks.length) { stopTTS(); return; }
+        currentUtterance = new SpeechSynthesisUtterance(chunks[chunkIndex]);
+        currentUtterance.lang = 'kk-KZ'; currentUtterance.rate = 0.9;
+        var voices = speechSynthesis.getVoices();
+        var kkVoice = voices.find(function(v) { return v.lang.startsWith('kk'); });
+        var ruVoice = voices.find(function(v) { return v.lang.startsWith('ru'); });
+        if (kkVoice) currentUtterance.voice = kkVoice;
+        else if (ruVoice) { currentUtterance.voice = ruVoice; currentUtterance.lang = 'ru-RU'; }
+        currentUtterance.onend = function() { chunkIndex++; speakNext(); };
+        currentUtterance.onerror = function() { chunkIndex++; speakNext(); };
+        speechSynthesis.speak(currentUtterance);
+    }
+    isSpeaking = true;
+    var btn = document.getElementById('ttsBtn');
+    if (btn) { btn.innerHTML = '<i class="fas fa-pause"></i>'; btn.classList.add('playing'); }
+    var status = document.getElementById('ttsStatus');
+    if (status) status.textContent = '🔊 Оқылуда...';
+    speakNext();
+}
+
+function stopTTS() {
+    speechSynthesis.cancel(); isSpeaking = false; currentUtterance = null;
+    var btn = document.getElementById('ttsBtn');
+    if (btn) { btn.innerHTML = '<i class="fas fa-play"></i>'; btn.classList.remove('playing'); }
+    var status = document.getElementById('ttsStatus');
+    if (status) status.textContent = 'Тыңдау үшін ▶ батырмасын басыңыз';
+}
+
+if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = function() { speechSynthesis.getVoices(); };
+
+// ===== TEST DATA =====
+var allTests = [
+    [
+        { q: '1. Алгоритм дегеніміз не?', o: ['Компьютер бағдарламасы', 'Белгілі бір мақсатқа жету үшін орындалатын қадамдар тізбегі', 'Математикалық формула', 'Кесте түрі'], a: 1 },
+        { q: '2. Алгоритмнің қасиеттеріне НЕ жатпайды?', o: ['Нақтылық', 'Түсініктілік', 'Шексіздік', 'Нәтижелілік'], a: 2 },
+        { q: '3. Тізбекті алгоритмде қадамдар қалай орындалады?', o: ['Кездейсоқ', 'Бірінен соң бірі', 'Шарт бойынша', 'Қайталанып'], a: 1 },
+        { q: '4. Блок-схемада ромб нені білдіреді?', o: ['Басы/Соңы', 'Әрекет', 'Шарт', 'Деректер енгізу'], a: 2 },
+        { q: '5. Циклдік алгоритмде не болады?', o: ['Қадамдар бір рет орындалады', 'Қадамдар қайталанады', 'Шарт тексеріледі', 'Ешнәрсе болмайды'], a: 1 },
+        { q: '6. Блок-схемада овал нені білдіреді?', o: ['Шарт', 'Процесс', 'Басы немесе Соңы', 'Цикл'], a: 2 },
+        { q: '7. Тармақталу алгоритмінде не тексеріледі?', o: ['Уақыт', 'Шарт', 'Деректер', 'Цикл'], a: 1 },
+        { q: '8. «Егер жаңбыр жауса — қолшатыр ал» — бұл қандай алгоритм?', o: ['Тізбекті', 'Циклдік', 'Тармақталу', 'Аралас'], a: 2 },
+        { q: '9. Блок-схемада тіктөртбұрыш нені білдіреді?', o: ['Шарт', 'Әрекет/Процесс', 'Басы', 'Деректер шығару'], a: 1 },
+        { q: '10. Алгоритмді кім орындайды?', o: ['Тек компьютер', 'Тек адам', 'Орындаушы (адам немесе компьютер)', 'Тек робот'], a: 2 }
+    ],
+    [
+        { q: '1. Scratch қай университетте жасалған?', o: ['Гарвард', 'MIT', 'Оксфорд', 'Стэнфорд'], a: 1 },
+        { q: '2. Scratch-тағы кейіпкер қалай аталады?', o: ['Актер', 'Спрайт', 'Блок', 'Фигура'], a: 1 },
+        { q: '3. Scratch-та бағдарлама қалай құрылады?', o: ['Код жазу арқылы', 'Блоктарды біріктіру арқылы', 'Сурет салу арқылы', 'Кесте толтыру арқылы'], a: 1 },
+        { q: '4. «10 қадам жүр» блогы қай категорияға жатады?', o: ['Көрініс', 'Қозғалыс', 'Дыбыс', 'Басқару'], a: 1 },
+        { q: '5. Scratch-та цикл жасау үшін қай блок қолданылады?', o: ['Егер...онда', 'Қайтала', 'Жүр', 'Айт'], a: 1 },
+        { q: '6. Scratch-тағы сахна (Stage) дегеніміз не?', o: ['Код жазатын жер', 'Спрайттар қозғалатын аймақ', 'Дыбыс ойнататын жер', 'Файл сақтайтын жер'], a: 1 },
+        { q: '7. «Жасыл жалаушаны басқанда» — бұл қай категория?', o: ['Қозғалыс', 'Басқару', 'Оқиғалар', 'Сезу'], a: 2 },
+        { q: '8. Scratch-та айнымалы не үшін қолданылады?', o: ['Сурет салу', 'Деректер сақтау (мысалы, ұпай)', 'Дыбыс ойнату', 'Спрайт жасау'], a: 1 },
+        { q: '9. Scratch-тың ресми сайты қандай?', o: ['scratch.org', 'scratch.mit.edu', 'scratch.com', 'mit.scratch.edu'], a: 1 },
+        { q: '10. Scratch-та спрайтқа костюм қосу не үшін керек?', o: ['Дыбыс шығару', 'Анимация жасау', 'Код жазу', 'Файл сақтау'], a: 1 }
+    ],
+    [
+        { q: '1. Компьютерлік желі дегеніміз не?', o: ['Бір компьютер', 'Компьютерлердің өзара байланысуы', 'Бағдарлама', 'Операциялық жүйе'], a: 1 },
+        { q: '2. LAN дегеніміз не?', o: ['Ауқымды желі', 'Жергілікті желі', 'Сымсыз желі', 'Ғаламдық желі'], a: 1 },
+        { q: '3. WAN желісіне мысал:', o: ['Мектеп кабинеті', 'Интернет', 'Bluetooth', 'USB кабель'], a: 1 },
+        { q: '4. IP-адрес дегеніміз не?', o: ['Компьютердің атауы', 'Желідегі құрылғының бірегей мекенжайы', 'Бағдарлама', 'Вирус'], a: 1 },
+        { q: '5. Wi-Fi дегеніміз не?', o: ['Сымды желі', 'Сымсыз жергілікті желі', 'Бағдарлама', 'Антивирус'], a: 1 },
+        { q: '6. Браузер дегеніміз не?', o: ['Операциялық жүйе', 'Веб-сайттарды көруге арналған бағдарлама', 'Вирус', 'Желі түрі'], a: 1 },
+        { q: '7. Интернетте қауіпсіздік үшін не істеу керек?', o: ['Барлық сілтемелерді басу', 'Құпиясөзді күрделі жасау', 'Жеке мәліметтерді бәріне беру', 'Антивирусты өшіру'], a: 1 },
+        { q: '8. Роутер не үшін қолданылады?', o: ['Сурет салу', 'Желіге құрылғыларды қосу', 'Ойын ойнау', 'Код жазу'], a: 1 },
+        { q: '9. IPv4 адресінде неше сан бөлігі бар?', o: ['2', '3', '4', '6'], a: 2 },
+        { q: '10. Қай бағдарлама браузер болып табылады?', o: ['Word', 'Chrome', 'Paint', 'Calculator'], a: 1 }
+    ]
+];
+
+var currentTestTopic = 0;
+var testAnswers = {};
+
+function loadTest(topicIndex, btn) {
+    currentTestTopic = topicIndex;
+    testAnswers = {};
+    document.querySelectorAll('#tests .test-topic-selector .btn-outline').forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    var questions = allTests[topicIndex];
+    var topicNames = ['Алгоритмдер', 'Scratch', 'Желілер'];
+    var html = '<h3 style="text-align:center;margin-bottom:24px;color:#333;">' + topicNames[topicIndex] + ' — Тест (10 сұрақ)</h3>';
+    questions.forEach(function(q, i) {
+        html += '<div class="test-question" id="tq' + i + '"><h4>' + q.q + '</h4>';
+        q.o.forEach(function(opt, j) {
+            html += '<label class="test-option" id="to' + i + '_' + j + '" onclick="selectAnswer(' + i + ',' + j + ')"><input type="radio" name="q' + i + '" value="' + j + '"><span>' + opt + '</span></label>';
+        });
+        html += '</div>';
+    });
+    html += '<div class="test-submit-area"><button class="btn btn-primary" onclick="submitTest()">✅ Тестті аяқтау</button></div>';
+    document.getElementById('testContainer').innerHTML = html;
+    document.getElementById('testResult').style.display = 'none';
+}
+
+function selectAnswer(qIndex, optIndex) {
+    testAnswers[qIndex] = optIndex;
+    for (var j = 0; j < 4; j++) {
+        var el = document.getElementById('to' + qIndex + '_' + j);
+        if (el) el.classList.remove('selected');
+    }
+    var sel = document.getElementById('to' + qIndex + '_' + optIndex);
+    if (sel) sel.classList.add('selected');
+}
+
+function submitTest() {
+    var questions = allTests[currentTestTopic];
+    var correct = 0;
+    questions.forEach(function(q, i) {
+        var userAnswer = testAnswers[i];
+        for (var j = 0; j < 4; j++) {
+            var el = document.getElementById('to' + i + '_' + j);
+            if (el) {
+                el.classList.remove('selected');
+                if (j === q.a) el.classList.add('correct');
+                else if (j === userAnswer && j !== q.a) el.classList.add('wrong');
+            }
+        }
+        if (userAnswer === q.a) correct++;
+    });
+    var percent = Math.round((correct / questions.length) * 100);
+    var resultDiv = document.getElementById('testResult');
+    resultDiv.style.display = 'block';
+    resultDiv.className = 'test-result ' + (percent >= 50 ? 'good' : 'bad');
+    var emoji = percent >= 80 ? '🎉 Тамаша!' : percent >= 50 ? '👍 Жақсы!' : '😔 Тағы тырысыңыз!';
+    resultDiv.innerHTML = '<h3>' + emoji + '</h3><p>Дұрыс жауаптар: <strong>' + correct + '</strong> / ' + questions.length + '</p><p>Нәтиже: <strong>' + percent + '%</strong></p>';
+    if (percent >= 80) launchConfetti();
+    addToRating('Сіз', percent);
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ===== RATING =====
+var ratingData = [
+    { name: 'Айдана', score: 95 }, { name: 'Нұрсұлтан', score: 90 }, { name: 'Мадина', score: 85 },
+    { name: 'Арман', score: 80 }, { name: 'Дана', score: 75 }, { name: 'Ерасыл', score: 70 },
+    { name: 'Аяулым', score: 65 }, { name: 'Бекзат', score: 60 }
+];
+
+function addToRating(name, score) {
+    var existing = ratingData.find(function(r) { return r.name === name; });
+    if (existing) { if (score > existing.score) existing.score = score; }
+    else ratingData.push({ name: name, score: score });
+    loadRating();
+}
+
+function loadRating() {
+    ratingData.sort(function(a, b) { return b.score - a.score; });
+    var medals = ['🥇', '🥈', '🥉'];
+    var html = '<table class="rating-table"><thead><tr><th>Орын</th><th>Оқушы</th><th>Ұпай</th></tr></thead><tbody>';
+    ratingData.forEach(function(r, i) {
+        var rankClass = i < 3 ? 'rank-' + (i + 1) : '';
+        var medal = i < 3 ? '<span class="medal">' + medals[i] + '</span>' : (i + 1) + '.';
+        html += '<tr class="' + rankClass + '"><td>' + medal + '</td><td>' + r.name + '</td><td>' + r.score + '%</td></tr>';
+    });
+    html += '</tbody></table>';
+    document.getElementById('ratingTable').innerHTML = html;
+}
+
+// ===== LEVEL GAMES =====
+var currentLevelTopic = 0;
+var gameScore = 0;
+
+function loadLevelTopic(topicIndex, btn) {
+    currentLevelTopic = topicIndex;
+    document.querySelectorAll('#levels .test-topic-selector .btn-outline').forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    document.getElementById('gameContainer').innerHTML = '';
+    document.getElementById('gameScore').innerHTML = '';
+}
+
+var gameData = {
+    0: {
+        easy: { type: 'match', title: 'Сәйкестендіру: Блок-схема элементтері', left: ['Овал', 'Тіктөртбұрыш', 'Ромб', 'Параллелограмм'], right: ['Басы/Соңы', 'Әрекет', 'Шарт', 'Деректер енгізу'], correctPairs: { 0: 0, 1: 1, 2: 2, 3: 3 } },
+        medium: { type: 'order', title: 'Дұрыс реттілікке қойыңыз: Шай дайындау алгоритмі', items: ['Шәйнекке су құю', 'Суды қайнату', 'Шай жапырағын салу', 'Қайнаған суды құю', 'Күту (3-5 минут)', 'Шайды пиалаға құю'], correctOrder: [0,1,2,3,4,5] },
+        hard: { type: 'dragdrop', title: 'Drag & Drop: Алгоритм түрлерін анықтаңыз', items: ['Шай қайнату', 'Жаңбыр жауса — қолшатыр ал', '1-ден 10-ға дейін сана', 'Кітап оқу қадамдары'], zones: ['Тізбекті', 'Тармақталу', 'Циклдік', 'Тізбекті'], correct: { 0: 0, 1: 1, 2: 2, 3: 3 } }
+    },
+    1: {
+        easy: { type: 'match', title: 'Сәйкестендіру: Scratch блок категориялары', left: ['Қозғалыс', 'Көрініс', 'Басқару', 'Оқиғалар'], right: ['Спрайтты жылжыту', 'Сөйлеу, костюм', 'Циклдер, шарттар', 'Жалаушаны басу'], correctPairs: { 0: 0, 1: 1, 2: 2, 3: 3 } },
+        medium: { type: 'order', title: 'Дұрыс реттілікке қойыңыз: Scratch-та квадрат сызу', items: ['Жасыл жалаушаны басу', 'Қаламды түсіру', '4 рет қайтала', '100 қадам жүр', '90 градусқа бұрыл', 'Қаламды көтеру'], correctOrder: [0,1,2,3,4,5] },
+        hard: { type: 'wordsearch', title: 'Жасырын сөздерді табыңыз', words: ['SCRATCH', 'SPRITE', 'BLOCK', 'LOOP', 'EVENT'], gridSize: 8 }
+    },
+    2: {
+        easy: { type: 'match', title: 'Сәйкестендіру: Желі терминдері', left: ['LAN', 'WAN', 'IP-адрес', 'Браузер'], right: ['Жергілікті желі', 'Ауқымды желі', 'Құрылғы мекенжайы', 'Веб-сайт көру'], correctPairs: { 0: 0, 1: 1, 2: 2, 3: 3 } },
+        medium: { type: 'order', title: 'Дұрыс реттілікке қойыңыз: Интернетке қосылу', items: ['Компьютерді қосу', 'Wi-Fi желісін табу', 'Құпиясөзді енгізу', 'Қосылу батырмасын басу', 'Браузерді ашу', 'Веб-сайтқа кіру'], correctOrder: [0,1,2,3,4,5] },
+        hard: { type: 'dragdrop', title: 'Drag & Drop: Желі түрлерін анықтаңыз', items: ['Мектеп кабинеті', 'Интернет', 'Bluetooth құлақаспап', 'Қала аралық байланыс'], zones: ['LAN', 'WAN', 'PAN', 'WAN'], correct: { 0: 0, 1: 1, 2: 2, 3: 3 } }
+    }
+};
+
+function startGame(level) {
+    var data = gameData[currentLevelTopic][level];
+    gameScore = 0;
+    document.getElementById('gameScore').innerHTML = '';
+    switch (data.type) {
+        case 'match': renderMatchGame(data); break;
+        case 'order': renderOrderGame(data); break;
+        case 'dragdrop': renderDragDropGame(data); break;
+        case 'wordsearch': renderWordSearchGame(data); break;
+    }
+}
+
+// MATCH GAME
+function renderMatchGame(data) {
+    var rightItems = shuffleArray(data.right.map(function(item, i) { return { text: item, index: i }; }));
+    var html = '<div class="match-game"><h4>' + data.title + '</h4><div class="match-columns">';
+    html += '<div class="match-col"><h5>Термин</h5>';
+    data.left.forEach(function(item, i) { html += '<div class="match-item match-item-left" id="ml' + i + '" data-index="' + i + '" onclick="selectMatchLeft(' + i + ')">' + item + '</div>'; });
+    html += '</div><div class="match-col"><h5>Анықтама</h5>';
+    rightItems.forEach(function(item, i) { html += '<div class="match-item match-item-right" id="mr' + i + '" data-index="' + item.index + '" onclick="selectMatchRight(' + i + ')">' + item.text + '</div>'; });
+    html += '</div></div></div>';
+    document.getElementById('gameContainer').innerHTML = html;
+    window.matchData = data; window.matchSelectedLeft = null; window.matchSelectedRight = null; window.matchMatched = 0;
+}
+
+function selectMatchLeft(i) {
+    document.querySelectorAll('.match-item-left').forEach(function(el) { el.classList.remove('selected'); });
+    var el = document.getElementById('ml' + i);
+    if (!el.classList.contains('matched')) { el.classList.add('selected'); window.matchSelectedLeft = i; tryCheckMatch(); }
+}
+
+function selectMatchRight(i) {
+    document.querySelectorAll('.match-item-right').forEach(function(el) { el.classList.remove('selected'); });
+    var el = document.getElementById('mr' + i);
+    if (!el.classList.contains('matched')) { el.classList.add('selected'); window.matchSelectedRight = i; tryCheckMatch(); }
+}
+
+function tryCheckMatch() {
+    if (window.matchSelectedLeft === null || window.matchSelectedRight === null) return;
+    var leftEl = document.getElementById('ml' + window.matchSelectedLeft);
+    var rightEl = document.getElementById('mr' + window.matchSelectedRight);
+    if (window.matchData.correctPairs[parseInt(leftEl.dataset.index)] === parseInt(rightEl.dataset.index)) {
+        leftEl.classList.add('matched'); leftEl.classList.remove('selected');
+        rightEl.classList.add('matched'); rightEl.classList.remove('selected');
+        gameScore += 25; window.matchMatched++;
+        if (window.matchMatched === window.matchData.left.length) { document.getElementById('gameScore').innerHTML = '🎉 Тамаша! Барлығы дұрыс! Ұпай: ' + gameScore; launchConfetti(); }
+    } else {
+        leftEl.classList.add('wrong-match'); rightEl.classList.add('wrong-match');
+        setTimeout(function() { leftEl.classList.remove('wrong-match', 'selected'); rightEl.classList.remove('wrong-match', 'selected'); }, 600);
+    }
+    window.matchSelectedLeft = null; window.matchSelectedRight = null;
+}
+
+// ORDER GAME
+function renderOrderGame(data) {
+    var items = shuffleArray(data.items.map(function(item, i) { return { text: item, originalIndex: i }; }));
+    var html = '<div class="order-game"><h4>' + data.title + '</h4><div class="order-items" id="orderItems">';
+    items.forEach(function(item, i) {
+        html += '<div class="order-item" draggable="true" data-original="' + item.originalIndex + '" id="oi' + i + '"><span class="order-num">' + (i + 1) + '</span><span>' + item.text + '</span></div>';
+    });
+    html += '</div><button class="game-check-btn" onclick="checkOrder()">✅ Тексеру</button></div>';
+    document.getElementById('gameContainer').innerHTML = html;
+    setupOrderDragDrop();
+}
+
+function setupOrderDragDrop() {
+    var container = document.getElementById('orderItems');
+    if (!container) return;
+    var draggedItem = null;
+    container.addEventListener('dragstart', function(e) {
+        if (e.target.classList.contains('order-item')) { draggedItem = e.target; e.target.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
+    });
+    container.addEventListener('dragend', function(e) {
+        if (e.target.classList.contains('order-item')) { e.target.classList.remove('dragging'); draggedItem = null; updateOrderNumbers(); }
+    });
+    container.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        var target = e.target.closest('.order-item');
+        if (draggedItem && target && draggedItem !== target) {
+            var rect = target.getBoundingClientRect();
+            if (e.clientY < rect.top + rect.height / 2) container.insertBefore(draggedItem, target);
+            else container.insertBefore(draggedItem, target.nextSibling);
+        }
+    });
+}
+
+function updateOrderNumbers() {
+    document.querySelectorAll('#orderItems .order-item').forEach(function(item, i) { item.querySelector('.order-num').textContent = i + 1; });
+}
+
+function checkOrder() {
+    var items = document.querySelectorAll('#orderItems .order-item');
+    var correct = true;
+    items.forEach(function(item, i) { if (parseInt(item.dataset.original) !== i) correct = false; });
+    if (correct) { gameScore = 100; document.getElementById('gameScore').innerHTML = '🎉 Тамаша! Дұрыс реттілік! Ұпай: 100'; launchConfetti(); }
+    else {
+        document.getElementById('gameScore').innerHTML = '❌ Қате реттілік. Қайта тырысыңыз!';
+        items.forEach(function(item) { item.style.borderColor = '#dc3545'; setTimeout(function() { item.style.borderColor = '#eee'; }, 1000); });
+    }
+}
+
+// DRAG DROP GAME
+function renderDragDropGame(data) {
+    var items = shuffleArray(data.items.map(function(item, i) { return { text: item, index: i }; }));
+    var html = '<div class="drag-game"><h4>' + data.title + '</h4><div class="drag-items" id="dragItems">';
+    items.forEach(function(item) { html += '<div class="drag-item" draggable="true" data-index="' + item.index + '" id="di' + item.index + '">' + item.text + '</div>'; });
+    html += '</div><div class="drop-zones" id="dropZones">';
+    data.zones.forEach(function(zone, i) {
+        html += '<div class="drop-zone" data-zone="' + i + '" id="dz' + i + '"><span class="drop-label">' + zone + '</span><div class="drop-area" id="da' + i + '">Мұнда сүйреңіз</div></div>';
+    });
+    html += '</div></div>';
+    document.getElementById('gameContainer').innerHTML = html;
+    window.ddData = data; window.ddMatched = 0;
+    setupDragDropGame();
+}
+
+function setupDragDropGame() {
+    document.querySelectorAll('.drag-item').forEach(function(item) {
+        item.addEventListener('dragstart', function(e) { e.dataTransfer.setData('text/plain', item.dataset.index); item.classList.add('dragging'); });
+        item.addEventListener('dragend', function() { item.classList.remove('dragging'); });
+    });
+    document.querySelectorAll('.drop-zone').forEach(function(zone) {
+        zone.addEventListener('dragover', function(e) { e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', function() { zone.classList.remove('drag-over'); });
+        zone.addEventListener('drop', function(e) {
+            e.preventDefault(); zone.classList.remove('drag-over');
+            var itemIndex = parseInt(e.dataTransfer.getData('text/plain'));
+            var zoneIndex = parseInt(zone.dataset.zone);
+            if (window.ddData.correct[itemIndex] === zoneIndex) {
+                zone.classList.add('correct');
+                var dragEl = document.getElementById('di' + itemIndex);
+                var dropArea = zone.querySelector('.drop-area');
+                dropArea.innerHTML = ''; dropArea.appendChild(dragEl);
+                dragEl.setAttribute('draggable', 'false'); dragEl.style.cursor = 'default';
+                gameScore += 25; window.ddMatched++;
+                if (window.ddMatched === window.ddData.items.length) { document.getElementById('gameScore').innerHTML = '🎉 Тамаша! Барлығы дұрыс! Ұпай: ' + gameScore; launchConfetti(); }
+            } else { zone.classList.add('wrong'); setTimeout(function() { zone.classList.remove('wrong'); }, 600); }
+        });
+    });
+}
+
+// WORD SEARCH GAME
+function renderWordSearchGame(data) {
+    var size = data.gridSize;
+    var grid = [], wordPositions = {};
+    for (var r = 0; r < size; r++) { grid[r] = []; for (var c = 0; c < size; c++) grid[r][c] = ''; }
+    data.words.forEach(function(word) {
+        var placed = false, attempts = 0;
+        while (!placed && attempts < 100) {
+            attempts++;
+            var dir = Math.random() < 0.5 ? 'h' : 'v', row, col;
+            if (dir === 'h') { row = Math.floor(Math.random() * size); col = Math.floor(Math.random() * (size - word.length + 1)); }
+            else { row = Math.floor(Math.random() * (size - word.length + 1)); col = Math.floor(Math.random() * size); }
+            var canPlace = true;
+            for (var i = 0; i < word.length; i++) {
+                var cr = dir === 'h' ? row : row + i, cc = dir === 'h' ? col + i : col;
+                if (grid[cr][cc] !== '' && grid[cr][cc] !== word[i]) { canPlace = false; break; }
+            }
+            if (canPlace) {
+                var positions = [];
+                for (var i = 0; i < word.length; i++) {
+                    var cr = dir === 'h' ? row : row + i, cc = dir === 'h' ? col + i : col;
+                    grid[cr][cc] = word[i]; positions.push(cr + '_' + cc);
+                }
+                wordPositions[word] = positions; placed = true;
+            }
+        }
+    });
+    var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    for (var r = 0; r < size; r++) for (var c = 0; c < size; c++) if (grid[r][c] === '') grid[r][c] = letters[Math.floor(Math.random() * letters.length)];
+    var html = '<div class="word-search-game"><h4>' + data.title + '</h4>';
+    html += '<p class="word-search-clue">Төмендегі сөздерді тор ішінен табыңыз (көлденең немесе тігінен)</p>';
+    html += '<div class="word-grid" style="grid-template-columns: repeat(' + size + ', 1fr);">';
+    for (var r = 0; r < size; r++) for (var c = 0; c < size; c++) html += '<div class="word-cell" data-pos="' + r + '_' + c + '" onclick="toggleWordCell(this)">' + grid[r][c] + '</div>';
+    html += '</div><div class="words-to-find" id="wordsToFind">';
+    data.words.forEach(function(word) { html += '<span class="word-tag" id="wt_' + word + '">' + word + '</span>'; });
+    html += '</div><button class="game-check-btn" onclick="checkWordSearch()">✅ Тексеру</button></div>';
+    document.getElementById('gameContainer').innerHTML = html;
+    window.wsData = data; window.wsPositions = wordPositions; window.wsFoundWords = [];
+}
+
+function toggleWordCell(cell) { cell.classList.toggle('selected'); }
+
+function checkWordSearch() {
+    var selectedPositions = [];
+    document.querySelectorAll('.word-cell.selected').forEach(function(cell) { selectedPositions.push(cell.dataset.pos); });
+    var foundNew = false;
+    window.wsData.words.forEach(function(word) {
+        if (window.wsFoundWords.indexOf(word) !== -1) return;
+        var wordPos = window.wsPositions[word];
+        if (!wordPos) return;
+        if (wordPos.every(function(pos) { return selectedPositions.indexOf(pos) !== -1; })) {
+            window.wsFoundWords.push(word); foundNew = true;
+            var tag = document.getElementById('wt_' + word);
+            if (tag) tag.classList.add('found');
+            wordPos.forEach(function(pos) { var cell = document.querySelector('.word-cell[data-pos="' + pos + '"]'); if (cell) { cell.classList.remove('selected'); cell.classList.add('found'); } });
+        }
+    });
+    if (window.wsFoundWords.length === window.wsData.words.length) { gameScore = 100; document.getElementById('gameScore').innerHTML = '🎉 Тамаша! Барлық сөздер табылды! Ұпай: 100'; launchConfetti(); }
+    else if (foundNew) { gameScore = Math.round((window.wsFoundWords.length / window.wsData.words.length) * 100); document.getElementById('gameScore').innerHTML = '✅ ' + window.wsFoundWords.length + '/' + window.wsData.words.length + ' сөз табылды. Ұпай: ' + gameScore; }
+    else document.getElementById('gameScore').innerHTML = '❌ Дұрыс сөз табылмады. Қайта тырысыңыз!';
+    document.querySelectorAll('.word-cell.selected').forEach(function(cell) { if (!cell.classList.contains('found')) cell.classList.remove('selected'); });
+}
+
+function shuffleArray(arr) {
+    for (var i = arr.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = arr[i]; arr[i] = arr[j]; arr[j] = temp; }
+    return arr;
+}
+
+// CONFETTI
+function launchConfetti() {
+    var canvas = document.getElementById('confettiCanvas');
+    var ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    var particles = [], colors = ['#ff416c','#ff4b2b','#ffd700','#28a745','#17a2b8','#6f42c1','#fd7e14'];
+    for (var i = 0; i < 150; i++) {
+        particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height - canvas.height, w: Math.random() * 10 + 5, h: Math.random() * 6 + 3, color: colors[Math.floor(Math.random() * colors.length)], speed: Math.random() * 3 + 2, angle: Math.random() * Math.PI * 2, spin: (Math.random() - 0.5) * 0.2, drift: (Math.random() - 0.5) * 2 });
+    }
+    var frames = 0;
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(function(p) {
+            ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.angle); ctx.fillStyle = p.color; ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h); ctx.restore();
+            p.y += p.speed; p.x += p.drift; p.angle += p.spin;
+        });
+        frames++;
+        if (frames < 180) requestAnimationFrame(animate);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    animate();
+}
+
+// DOWNLOAD NOTEBOOK
+function downloadNotebook(topicIndex) {
+    var topicNames = ['Алгоритмдер — Практикалық тапсырмалар', 'Scratch — Практикалық тапсырмалар', 'Желілер — Практикалық тапсырмалар'];
+    var tasks = [
+        ['Шай дайындау алгоритмін жазып, блок-схемасын салыңыз.', 'Тармақталу алгоритмі: «Егер ауа-райы жақсы болса, серуенге шық, болмаса үйде қал» блок-схемасын сал.', 'Циклдік алгоритм: 1-ден 10-ға дейін санау алгоритмін жаз.'],
+        ['Scratch-та мысықты 100 қадам жүргізіп, «Сәлем!» деп айтқызыңыз.', 'Scratch-та квадрат сызатын бағдарлама жасаңыз (цикл қолданыңыз).', 'Scratch-та «Егер жасыл жалаушаны бассаң» оқиғасымен анимация жаса.'],
+        ['Өз компьютеріңнің IP-адресін тауып жаз.', 'LAN және WAN желілерінің айырмашылығын кесте түрінде жаз.', 'Интернетте қауіпсіз болу ережелерін 5 тармақпен жаз.']
+    ];
+    var deadlines = ['2026-03-15, 23:59', '2026-03-20, 23:59', '2026-03-25, 23:59'];
+    if (typeof docx === 'undefined') { alert('Кешіріңіз, .docx кітапханасы жүктелмеді. Бетті жаңартып көріңіз.'); return; }
+    var children = [
+        new docx.Paragraph({ children: [new docx.TextRun({ text: topicNames[topicIndex], bold: true, size: 32 })], spacing: { after: 300 } }),
+        new docx.Paragraph({ children: [new docx.TextRun({ text: 'Дедлайн: ' + deadlines[topicIndex], bold: true, color: 'FF0000' })], spacing: { after: 300 } })
+    ];
+    tasks[topicIndex].forEach(function(task, i) {
+        children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: (i+1) + '-тапсырма: ' + task, size: 24 })], spacing: { after: 200 } }));
+        children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: 'Жауабыңыз: _______________________________________________', color: '888888' })], spacing: { after: 400 } }));
+    });
+    var doc = new docx.Document({ sections: [{ children: children }] });
+    docx.Packer.toBlob(doc).then(function(blob) {
+        var url = URL.createObjectURL(blob), a = document.createElement('a');
+        a.href = url; a.download = 'Дәптер_' + topicNames[topicIndex].split(' — ')[0] + '.docx'; a.click(); URL.revokeObjectURL(url);
+    });
+}
+
+// DOWNLOAD KMJ
+function downloadKMJ(topicIndex) {
+    var kmjData = [
+        { title: 'ҚМЖ: Алгоритмдер және блок-схемалар', goal: 'Оқушылар алгоритмнің анықтамасын біледі, блок-схема элементтерін ажыратады, тізбекті алгоритм құра алады.', stages: ['Ұйымдастыру (3 мин)', 'Жаңа тақырыпты түсіндіру (15 мин)', 'Практикалық жұмыс — блок-схема құру (15 мин)', 'Бекіту — тест (5 мин)', 'Қорытынды, бағалау (2 мин)'], assessment: 'Формативті бағалау — блок-схеманы дұрыс құру, тест нәтижесі.', resources: 'Компьютер, проектор, оқулық, жұмыс дәптері, интерактивті тақта.' },
+        { title: 'ҚМЖ: Scratch бағдарламалау негіздері', goal: 'Оқушылар Scratch ортасымен танысады, блоктарды қолданып қарапайым бағдарлама жасай алады.', stages: ['Ұйымдастыру (3 мин)', 'Scratch ортасын таныстыру (10 мин)', 'Практика — спрайтты жүргізу (17 мин)', 'Шығармашылық тапсырма (8 мин)', 'Қорытынды, бағалау (2 мин)'], assessment: 'Формативті — бағдарламаның жұмыс істеуі, шығармашылық тапсырма.', resources: 'Компьютер, Scratch онлайн (scratch.mit.edu), проектор, оқулық.' },
+        { title: 'ҚМЖ: Компьютерлік желілер', goal: 'Оқушылар желі түрлерін ажыратады, IP-адрес ұғымын біледі, интернет қауіпсіздігін түсінеді.', stages: ['Ұйымдастыру (3 мин)', 'Жаңа тақырып — желі түрлері (12 мин)', 'Топтық жұмыс — желі схемасын құру (13 мин)', 'Қауіпсіздік ережелерін талқылау (7 мин)', 'Бекіту, бағалау (5 мин)'], assessment: 'Формативті — топтық жұмыс, ауызша жауап.', resources: 'Компьютер, проектор, оқулық, интернет, плакаттар.' }
+    ];
+    if (typeof docx === 'undefined') { alert('Кешіріңіз, .docx кітапханасы жүктелмеді.'); return; }
+    var d = kmjData[topicIndex];
+    var children = [
+        new docx.Paragraph({ children: [new docx.TextRun({ text: d.title, bold: true, size: 32 })], spacing: { after: 400 } }),
+        new docx.Paragraph({ children: [new docx.TextRun({ text: 'Сабақ мақсаты:', bold: true, size: 26 })], spacing: { after: 100 } }),
+        new docx.Paragraph({ children: [new docx.TextRun({ text: d.goal, size: 24 })], spacing: { after: 300 } }),
+        new docx.Paragraph({ children: [new docx.TextRun({ text: 'Сабақ кезеңдері:', bold: true, size: 26 })], spacing: { after: 100 } })
+    ];
+    d.stages.forEach(function(stage) { children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: '• ' + stage, size: 24 })], spacing: { after: 100 } })); });
+    children.push(new docx.Paragraph({ children: [], spacing: { after: 200 } }));
+    children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: 'Бағалау:', bold: true, size: 26 })], spacing: { after: 100 } }));
+    children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: d.assessment, size: 24 })], spacing: { after: 300 } }));
+    children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: 'Ресурстар:', bold: true, size: 26 })], spacing: { after: 100 } }));
+    children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: d.resources, size: 24 })], spacing: { after: 200 } }));
+    var doc = new docx.Document({ sections: [{ children: children }] });
+    docx.Packer.toBlob(doc).then(function(blob) {
+        var url = URL.createObjectURL(blob), a = document.createElement('a');
+        a.href = url; a.download = d.title + '.docx'; a.click(); URL.revokeObjectURL(url);
+    });
+}
+
+// CHATBOT
+var chatbotKnowledge = {
+    'алгоритм': 'Алгоритм — белгілі бір мақсатқа жету үшін орындалатын нақты қадамдар тізбегі. Алгоритмнің 3 түрі бар: тізбекті, тармақталу және циклдік.',
+    'блок-схема': 'Блок-схема — алгоритмді графикалық түрде бейнелеу тәсілі. Овал — басы/соңы, тіктөртбұрыш — әрекет, ромб — шарт.',
+    'scratch': 'Scratch — MIT жасаған визуалды бағдарламалау ортасы. Блоктарды біріктіру арқылы ойын, анимация жасауға болады. Ресми сайт: scratch.mit.edu',
+    'спрайт': 'Спрайт — Scratch ортасындағы кейіпкер немесе объект. Оған костюм, дыбыс қосуға болады.',
+    'цикл': 'Цикл — белгілі бір әрекетті бірнеше рет қайталау. Scratch-та «қайтала» блогы қолданылады.',
+    'желі': 'Компьютерлік желі — компьютерлердің өзара байланысуы. LAN — жергілікті желі, WAN — ауқымды желі (Интернет).',
+    'ip': 'IP-адрес — желідегі құрылғының бірегей мекенжайы. Мысалы: 192.168.1.1.',
+    'интернет': 'Интернет — бүкіл әлемдегі компьютерлерді байланыстыратын ауқымды желі (WAN).',
+    'браузер': 'Браузер — веб-сайттарды көруге арналған бағдарлама. Мысалдар: Google Chrome, Firefox, Edge.',
+    'қауіпсіздік': 'Интернет қауіпсіздігі: күрделі құпиясөз қолданыңыз, бейтаныс сілтемелерді баспаңыз, антивирус орнатыңыз.',
+    'lan': 'LAN (Local Area Network) — жергілікті желі. Бір ғимарат ішіндегі компьютерлерді байланыстырады.',
+    'wan': 'WAN (Wide Area Network) — ауқымды желі. Ең үлкен WAN — Интернет.',
+    'сәлем': 'Сәлеметсіз бе! Мен информатика бойынша көмекші ботпын. 😊',
+    'рахмет': 'Оқасы жоқ! Тағы да сұрақтарыңыз болса, жазыңыз! 😊',
+    'информатика': 'Информатика — ақпаратты жинау, сақтау, өңдеу туралы ғылым. Компьютер, бағдарламалау, желілер — негізгі бөлімдер.',
+    'бағдарламалау': 'Бағдарламалау — компьютерге нұсқаулар жазу. Scratch, Python, JavaScript — бағдарламалау тілдері.'
+};
+
+function sendChat() {
+    var input = document.getElementById('chatInput');
+    var message = input.value.trim();
+    if (!message) return;
+    var messagesDiv = document.getElementById('chatMessages');
+    messagesDiv.innerHTML += '<div class="chat-msg user-msg"><div class="msg-avatar"><i class="fas fa-user"></i></div><div class="msg-bubble">' + escapeHtml(message) + '</div></div>';
+    input.value = '';
+    setTimeout(function() {
+        var response = generateBotResponse(message);
+        messagesDiv.innerHTML += '<div class="chat-msg bot-msg"><div class="msg-avatar"><i class="fas fa-robot"></i></div><div class="msg-bubble">' + response + '</div></div>';
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }, 800);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+function generateBotResponse(message) {
+    var lowerMsg = message.toLowerCase();
+    var bestMatch = null, bestScore = 0;
+    Object.keys(chatbotKnowledge).forEach(function(key) {
+        if (lowerMsg.indexOf(key) !== -1 && key.length > bestScore) { bestScore = key.length; bestMatch = key; }
+    });
+    if (bestMatch) return chatbotKnowledge[bestMatch];
+    var defaults = [
+        'Жақсы сұрақ! Сабақтар бөлімінен толық ақпарат ала аласыз. 📚',
+        'Бұл қызықты сұрақ! Негізгі тақырыптар: алгоритмдер, Scratch және компьютерлік желілер. 🤖',
+        'Мен 6-сынып информатика бойынша ботпын. Алгоритм, Scratch, желі туралы сұрақтар қойыңыз!'
+    ];
+    return defaults[Math.floor(Math.random() * defaults.length)];
+}
+
+function escapeHtml(text) { var div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+
+document.addEventListener('click', function(e) {
+    if (e.target.id === 'lessonModal') closeLessonModal();
+    if (e.target.id === 'fullLessonModal') closeFullLessonModal();
+});
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { closeLessonModal(); closeFullLessonModal(); }
+});
+</script>
+</body>
+</html>

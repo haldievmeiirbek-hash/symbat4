@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Digital Portfolio Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#3B82F6;--blue-light:#EFF6FF;--blue-mid:#BFDBFE;
+  --indigo:#6366F1;--indigo-light:#EEF2FF;
+  --purple:#8B5CF6;--purple-light:#F5F3FF;
+  --cyan:#06B6D4;--cyan-light:#ECFEFF;
+  --sky:#0EA5E9;
+  --white:#FFFFFF;--gray-50:#F8FAFC;--gray-100:#F1F5F9;
+  --gray-200:#E2E8F0;--gray-300:#CBD5E1;--gray-400:#94A3B8;
+  --gray-500:#64748B;--gray-600:#475569;--gray-700:#334155;
+  --gray-800:#1E293B;--gray-900:#0F172A;
+  --font:'Plus Jakarta Sans',sans-serif;
+  --radius:12px;--radius-lg:16px;--radius-xl:24px;
+  --shadow:0 4px 24px rgba(59,130,246,0.08),0 1px 4px rgba(0,0,0,0.04);
+  --shadow-md:0 8px 32px rgba(59,130,246,0.12),0 2px 8px rgba(0,0,0,0.06);
+  --shadow-lg:0 16px 48px rgba(59,130,246,0.16),0 4px 16px rgba(0,0,0,0.08);
+}
+body{font-family:var(--font);background:#F0F7FF;color:var(--gray-800);min-height:100vh;font-size:15px;line-height:1.6;}
+button{font-family:var(--font);cursor:pointer;border:none;transition:all .2s ease;}
+input,textarea,select{font-family:var(--font);border:1.5px solid var(--gray-200);border-radius:var(--radius);padding:10px 14px;font-size:14px;color:var(--gray-800);outline:none;transition:all .2s;background:var(--white);width:100%;}
+input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,0.12);}
+label{font-size:13px;font-weight:600;color:var(--gray-600);display:block;margin-bottom:5px;}
+.hidden{display:none!important;}
+
+/* NAV */
+nav{background:rgba(255,255,255,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--gray-100);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;color:var(--gray-900);}
+.nav-logo{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--indigo));border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:800;}
+.nav-links{display:flex;align-items:center;gap:8px;}
+.nav-link{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;color:var(--gray-600);background:transparent;cursor:pointer;border:none;transition:all .2s;}
+.nav-link:hover,.nav-link.active{background:var(--blue-light);color:var(--blue);}
+.nav-right{display:flex;align-items:center;gap:8px;}
+.lang-btn{padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700;border:1.5px solid var(--gray-200);background:var(--white);color:var(--gray-600);cursor:pointer;transition:all .2s;}
+.lang-btn.active{border-color:var(--blue);background:var(--blue-light);color:var(--blue);}
+.btn-primary{padding:9px 20px;background:linear-gradient(135deg,var(--blue),var(--indigo));color:#fff;border-radius:10px;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:all .2s;}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 4px 16px rgba(99,102,241,.3);}
+.btn-secondary{padding:9px 20px;background:var(--white);color:var(--gray-700);border-radius:10px;font-size:13px;font-weight:600;border:1.5px solid var(--gray-200);cursor:pointer;transition:all .2s;}
+.btn-secondary:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light);}
+.btn-sm{padding:7px 16px;font-size:12px;border-radius:8px;}
+
+/* PAGES */
+.page{display:none;min-height:calc(100vh - 60px);}
+.page.active{display:block;}
+
+/* HOME PAGE */
+.hero{background:linear-gradient(135deg,#EFF6FF 0%,#F5F3FF 40%,#ECFEFF 100%);padding:72px 24px 80px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-80px;left:-80px;width:360px;height:360px;background:radial-gradient(circle,rgba(99,102,241,.1) 0%,transparent 70%);border-radius:50%;pointer-events:none;}
+.hero::after{content:'';position:absolute;bottom:-100px;right:-60px;width:400px;height:400px;background:radial-gradient(circle,rgba(6,182,212,.08) 0%,transparent 70%);border-radius:50%;pointer-events:none;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--white);border:1px solid var(--gray-200);border-radius:99px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--indigo);margin-bottom:24px;box-shadow:var(--shadow);}
+.hero-badge span{width:6px;height:6px;background:var(--indigo);border-radius:50%;display:inline-block;}
+h1.hero-title{font-family:'Fraunces',serif;font-size:clamp(32px,5vw,56px);font-weight:700;color:var(--gray-900);line-height:1.15;margin-bottom:20px;}
+h1.hero-title em{font-style:italic;color:var(--blue);}
+.hero-sub{font-size:17px;color:var(--gray-500);max-width:520px;margin:0 auto 36px;line-height:1.7;}
+.hero-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.hero-stats{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-top:52px;}
+.stat-item{text-align:center;}
+.stat-num{font-size:28px;font-weight:800;color:var(--gray-900);}
+.stat-label{font-size:13px;color:var(--gray-400);margin-top:2px;}
+
+.section{padding:64px 24px;max-width:1000px;margin:0 auto;}
+.section-badge{display:inline-block;padding:4px 14px;background:var(--blue-light);color:var(--blue);border-radius:99px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;}
+.section-title{font-family:'Fraunces',serif;font-size:clamp(22px,3.5vw,36px);font-weight:700;color:var(--gray-900);margin-bottom:10px;}
+.section-sub{font-size:15px;color:var(--gray-500);max-width:480px;line-height:1.7;}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:36px;}
+.feature-card{background:var(--white);border-radius:var(--radius-lg);padding:24px;border:1px solid var(--gray-100);transition:all .25s;box-shadow:var(--shadow);}
+.feature-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--blue-mid);}
+.feature-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;}
+.feature-card h3{font-size:15px;font-weight:700;color:var(--gray-900);margin-bottom:6px;}
+.feature-card p{font-size:13px;color:var(--gray-500);line-height:1.6;}
+
+/* DASHBOARD */
+.dashboard{padding:0;}
+.dash-sidebar{position:fixed;left:0;top:60px;width:220px;height:calc(100vh - 60px);background:var(--white);border-right:1px solid var(--gray-100);padding:16px 12px;overflow-y:auto;z-index:50;}
+.dash-main{margin-left:220px;padding:24px;}
+.dash-title{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.06em;padding:0 8px;margin:16px 0 6px;}
+.dash-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;color:var(--gray-600);font-size:13px;font-weight:500;transition:all .18s;margin-bottom:2px;}
+.dash-item:hover{background:var(--gray-50);color:var(--gray-900);}
+.dash-item.active{background:var(--blue-light);color:var(--blue);font-weight:600;}
+.dash-item .icon{font-size:17px;width:22px;text-align:center;}
+
+/* BUILDER */
+.builder-layout{display:grid;grid-template-columns:280px 1fr;gap:0;min-height:calc(100vh - 60px);}
+.builder-sidebar{background:var(--white);border-right:1px solid var(--gray-100);padding:16px;overflow-y:auto;}
+.builder-content{padding:24px;overflow-y:auto;background:#F0F7FF;}
+.step-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;margin-bottom:4px;transition:all .18s;border:1.5px solid transparent;}
+.step-item.active{background:var(--blue-light);border-color:var(--blue-mid);color:var(--blue);}
+.step-item.done .step-num{background:var(--blue);color:#fff;}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--gray-500);flex-shrink:0;transition:all .2s;}
+.step-item.active .step-num{background:var(--blue);color:#fff;}
+.step-label{font-size:13px;font-weight:600;color:var(--gray-700);}
+.step-item.active .step-label{color:var(--blue);}
+.form-card{background:var(--white);border-radius:var(--radius-lg);padding:24px;border:1px solid var(--gray-100);box-shadow:var(--shadow);margin-bottom:16px;}
+.form-card h2{font-size:17px;font-weight:800;color:var(--gray-900);margin-bottom:4px;}
+.form-card .subtitle{font-size:13px;color:var(--gray-400);margin-bottom:20px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.form-group{margin-bottom:12px;}
+.add-btn{display:flex;align-items:center;gap:6px;padding:9px 16px;background:var(--blue-light);color:var(--blue);border-radius:8px;font-size:13px;font-weight:600;border:1.5px dashed var(--blue-mid);cursor:pointer;transition:all .2s;width:100%;justify-content:center;}
+.add-btn:hover{background:var(--blue);color:#fff;}
+.entry-card{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:14px;margin-bottom:8px;position:relative;}
+.entry-card h4{font-size:14px;font-weight:700;color:var(--gray-800);}
+.entry-card p{font-size:12px;color:var(--gray-500);margin-top:2px;}
+.remove-btn{position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:50%;background:var(--gray-200);color:var(--gray-500);border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.remove-btn:hover{background:#FEE2E2;color:#EF4444;}
+.skill-bar{margin-bottom:10px;}
+.skill-bar-label{display:flex;justify-content:space-between;margin-bottom:5px;}
+.skill-bar-label span{font-size:13px;font-weight:600;color:var(--gray-700);}
+.skill-bar-label small{font-size:11px;color:var(--gray-400);}
+.bar-track{height:7px;background:var(--gray-200);border-radius:99px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--indigo));transition:width .5s;}
+.progress-bar-outer{background:var(--gray-200);border-radius:99px;height:6px;margin-bottom:16px;}
+.progress-bar-inner{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--indigo));transition:width .4s;}
+
+/* PREVIEW */
+.preview-wrap{background:#E2E8F0;min-height:calc(100vh - 60px);display:flex;gap:0;}
+.preview-sidebar{width:280px;background:var(--white);border-right:1px solid var(--gray-100);padding:16px;flex-shrink:0;overflow-y:auto;}
+.preview-main{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;align-items:center;}
+.portfolio-page{width:794px;min-height:1122px;background:var(--white);border-radius:var(--radius);box-shadow:0 20px 60px rgba(0,0,0,.14);overflow:hidden;margin-bottom:24px;}
+
+/* TEMPLATES */
+.templates-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:24px;}
+.template-card{border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;border:2px solid var(--gray-200);transition:all .22s;background:var(--white);box-shadow:var(--shadow);}
+.template-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+.template-card.selected{border-color:var(--blue);box-shadow:0 0 0 4px rgba(59,130,246,.12);}
+.template-thumb{height:160px;position:relative;overflow:hidden;}
+.template-info{padding:14px;}
+.template-info h3{font-size:14px;font-weight:700;color:var(--gray-900);}
+.template-info p{font-size:12px;color:var(--gray-400);margin-top:2px;}
+.template-badge{position:absolute;top:8px;right:8px;padding:3px 8px;border-radius:99px;font-size:10px;font-weight:700;color:#fff;}
+
+/* AI PANEL */
+.ai-panel{background:linear-gradient(135deg,#EFF6FF,#F5F3FF);border:1px solid var(--blue-mid);border-radius:var(--radius-lg);padding:16px;margin-bottom:16px;}
+.ai-panel h3{font-size:14px;font-weight:700;color:var(--indigo);display:flex;align-items:center;gap:6px;margin-bottom:10px;}
+.ai-panel p{font-size:13px;color:var(--gray-500);line-height:1.6;margin-bottom:10px;}
+.ai-result{background:var(--white);border-radius:10px;padding:12px;font-size:13px;color:var(--gray-700);line-height:1.7;border:1px solid var(--blue-mid);}
+.ai-loading{display:flex;align-items:center;gap:8px;color:var(--gray-400);font-size:13px;}
+.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:pulse 1.2s infinite;}
+.ai-dot:nth-child(2){animation-delay:.2s;}
+.ai-dot:nth-child(3){animation-delay:.4s;}
+@keyframes pulse{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.4);z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;}
+.modal{background:var(--white);border-radius:var(--radius-xl);padding:28px;width:100%;max-width:480px;box-shadow:var(--shadow-lg);position:relative;max-height:90vh;overflow-y:auto;}
+.modal h2{font-size:20px;font-weight:800;color:var(--gray-900);margin-bottom:6px;}
+.modal .close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--gray-100);border:none;cursor:pointer;font-size:18px;color:var(--gray-500);display:flex;align-items:center;justify-content:center;}
+.modal .close:hover{background:var(--gray-200);}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--gray-900);color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:500;box-shadow:var(--shadow-lg);z-index:300;transform:translateY(80px);opacity:0;transition:all .3s;display:flex;align-items:center;gap:8px;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:linear-gradient(135deg,#059669,#0D9488);}
+
+/* TEMPLATE RENDERERS */
+.tpl-modern .port-header{background:linear-gradient(135deg,#1E3A5F,#2D5A8E);color:#fff;padding:40px 48px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;}
+.tpl-modern .port-avatar{width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.2);border:3px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;color:#fff;overflow:hidden;flex-shrink:0;}
+.tpl-modern .port-avatar img{width:100%;height:100%;object-fit:cover;}
+.tpl-modern .port-name{font-size:26px;font-weight:800;margin-bottom:4px;}
+.tpl-modern .port-role{font-size:14px;opacity:.75;margin-bottom:8px;}
+.tpl-modern .port-contact{display:flex;flex-wrap:wrap;gap:12px;}
+.tpl-modern .port-contact span{font-size:12px;opacity:.8;}
+.tpl-modern .port-body{padding:32px 48px;display:grid;grid-template-columns:1fr 2fr;gap:28px;}
+.tpl-modern .port-left{}
+.tpl-modern .port-right{}
+.tpl-section{margin-bottom:24px;}
+.tpl-section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);border-bottom:2px solid var(--blue);padding-bottom:6px;margin-bottom:14px;}
+.tpl-modern .tpl-section-title{color:#1E3A5F;border-color:#1E3A5F;}
+.tpl-entry{margin-bottom:12px;}
+.tpl-entry h4{font-size:13px;font-weight:700;color:var(--gray-900);}
+.tpl-entry p{font-size:12px;color:var(--gray-500);line-height:1.5;}
+.tpl-entry .date{font-size:11px;color:var(--gray-400);margin-bottom:3px;}
+.tpl-skill{margin-bottom:7px;}
+.tpl-skill-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.tpl-skill-row span{font-size:12px;color:var(--gray-700);font-weight:500;}
+.tpl-bar{height:5px;background:var(--gray-200);border-radius:99px;overflow:hidden;}
+.tpl-bar-fill{height:100%;border-radius:99px;}
+
+.tpl-minimal .port-header{padding:48px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;gap:24px;}
+.tpl-minimal .port-avatar{width:80px;height:80px;border-radius:12px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:var(--gray-500);overflow:hidden;flex-shrink:0;}
+.tpl-minimal .port-avatar img{width:100%;height:100%;object-fit:cover;}
+.tpl-minimal .port-name{font-size:24px;font-weight:800;color:var(--gray-900);}
+.tpl-minimal .port-role{font-size:14px;color:var(--gray-400);margin-top:3px;}
+.tpl-minimal .port-body{padding:32px 48px;display:grid;grid-template-columns:1fr 2fr;gap:32px;}
+.tpl-minimal .tpl-section-title{color:var(--gray-900);border-color:var(--gray-200);font-family:'Fraunces',serif;font-size:13px;text-transform:none;font-weight:700;letter-spacing:0;}
+
+.tpl-creative .port-header{background:linear-gradient(135deg,#7C3AED,#EC4899);color:#fff;padding:48px;text-align:center;}
+.tpl-creative .port-avatar{width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.25);border:3px solid rgba(255,255,255,.5);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;color:#fff;overflow:hidden;}
+.tpl-creative .port-avatar img{width:100%;height:100%;object-fit:cover;}
+.tpl-creative .port-name{font-size:28px;font-weight:800;margin-bottom:4px;}
+.tpl-creative .port-role{font-size:15px;opacity:.8;}
+.tpl-creative .port-body{padding:32px 48px;display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.tpl-creative .tpl-section-title{color:#7C3AED;border-color:#7C3AED;}
+
+.tpl-teacher .port-header{background:#065F46;color:#fff;padding:36px 48px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;}
+.tpl-teacher .port-avatar{width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,.15);border:3px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;overflow:hidden;flex-shrink:0;}
+.tpl-teacher .port-avatar img{width:100%;height:100%;object-fit:cover;}
+.tpl-teacher .port-name{font-size:24px;font-weight:800;margin-bottom:4px;}
+.tpl-teacher .port-role{font-size:13px;opacity:.75;}
+.tpl-teacher .port-body{padding:32px 48px;}
+.tpl-teacher .tpl-section-title{color:#065F46;border-color:#065F46;}
+
+.tpl-elegant .port-header{padding:52px;text-align:center;border-bottom:1px solid var(--gray-200);}
+.tpl-elegant .port-avatar{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#B45309,#92400E);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;overflow:hidden;}
+.tpl-elegant .port-avatar img{width:100%;height:100%;object-fit:cover;}
+.tpl-elegant .port-name{font-family:'Fraunces',serif;font-size:28px;font-weight:700;color:var(--gray-900);}
+.tpl-elegant .port-role{font-size:14px;color:var(--gray-400);margin-top:4px;letter-spacing:.04em;}
+.tpl-elegant .port-body{padding:32px 64px;display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+.tpl-elegant .tpl-section-title{font-family:'Fraunces',serif;font-size:14px;color:#92400E;border-color:#92400E;text-transform:none;font-weight:700;letter-spacing:0;}
+
+.tag{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600;margin:2px;}
+.tag-blue{background:#EFF6FF;color:#2563EB;}
+.tag-purple{background:#F5F3FF;color:#7C3AED;}
+.tag-green{background:#F0FDF4;color:#16A34A;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .builder-layout{grid-template-columns:1fr;}
+  .builder-sidebar{display:none;}
+  .portfolio-page{width:100%;}
+  .tpl-modern .port-body,.tpl-minimal .port-body,.tpl-creative .port-body,.tpl-elegant .port-body{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .dash-sidebar{display:none;}
+  .dash-main{margin-left:0;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Saved</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">P</div>
+    <span>PortfolioAI</span>
+  </div>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="goPage('home')" data-i18n="nav.home">Home</button>
+    <button class="nav-link" onclick="goPage('templates')" data-i18n="nav.templates">Templates</button>
+    <button class="nav-link" onclick="goPage('builder')" data-i18n="nav.builder">Builder</button>
+    <button class="nav-link" onclick="goPage('preview')" data-i18n="nav.preview">Preview</button>
+  </div>
+  <div class="nav-right">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    <button class="lang-btn" onclick="setLang('kk')">ҚА</button>
+    <button class="btn-primary btn-sm" onclick="goPage('builder')" data-i18n="nav.create">Create Portfolio</button>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-badge"><span></span><span data-i18n="hero.badge">AI-Powered Portfolio Builder</span></div>
+    <h1 class="hero-title" data-i18n="hero.title">Create Your <em>Professional Portfolio</em> in Minutes</h1>
+    <p class="hero-sub" data-i18n="hero.sub">Build stunning, AI-enhanced portfolios that impress employers. Choose from beautiful templates and download as PDF.</p>
+    <div class="hero-buttons">
+      <button class="btn-primary" style="padding:13px 28px;font-size:15px;" onclick="goPage('builder')" data-i18n="hero.cta1">✨ Create Portfolio</button>
+      <button class="btn-secondary" style="padding:13px 28px;font-size:15px;" onclick="goPage('templates')" data-i18n="hero.cta2">View Templates</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">12,400+</div><div class="stat-label" data-i18n="stats.portfolios">Portfolios created</div></div>
+      <div class="stat-item"><div class="stat-num">5</div><div class="stat-label" data-i18n="stats.templates">Premium templates</div></div>
+      <div class="stat-item"><div class="stat-num">AI</div><div class="stat-label" data-i18n="stats.ai">Powered writing assistant</div></div>
+      <div class="stat-item"><div class="stat-num">3</div><div class="stat-label" data-i18n="stats.langs">Languages supported</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div style="text-align:center;margin-bottom:12px;">
+      <div class="section-badge" data-i18n="features.badge">Features</div>
+      <h2 class="section-title" data-i18n="features.title">Everything you need to stand out</h2>
+      <p class="section-sub" style="margin:0 auto" data-i18n="features.sub">Built for professionals, students, and creatives who want to make an impression.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#EFF6FF;">🤖</div>
+        <h3 data-i18n="feat.ai">AI Writing Assistant</h3>
+        <p data-i18n="feat.ai.desc">Generate compelling "About Me" sections and professional descriptions with one click.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#F5F3FF;">🎨</div>
+        <h3 data-i18n="feat.tpl">5 Premium Templates</h3>
+        <p data-i18n="feat.tpl.desc">Choose from Modern, Minimal, Creative, Teacher, and Elegant portfolio styles.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#ECFEFF;">📄</div>
+        <h3 data-i18n="feat.pdf">PDF Export</h3>
+        <p data-i18n="feat.pdf.desc">Download your portfolio as a high-quality PDF file, ready to share with employers.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#FFF7ED;">💾</div>
+        <h3 data-i18n="feat.save">Auto-Save</h3>
+        <p data-i18n="feat.save.desc">Your progress is automatically saved so you never lose your work.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#F0FDF4;">🌍</div>
+        <h3 data-i18n="feat.lang">Multilingual</h3>
+        <p data-i18n="feat.lang.desc">Full support for Kazakh, Russian, and English languages throughout the platform.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#FEF2F2;">⚡</div>
+        <h3 data-i18n="feat.live">Live Preview</h3>
+        <p data-i18n="feat.live.desc">See your portfolio update in real-time as you type. What you see is what you get.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#1E3A5F,#2D5A8E);padding:64px 24px;text-align:center;color:#fff;">
+    <h2 style="font-family:'Fraunces',serif;font-size:32px;font-weight:700;margin-bottom:12px;" data-i18n="cta.title">Ready to build your portfolio?</h2>
+    <p style="opacity:.75;font-size:15px;margin-bottom:28px;" data-i18n="cta.sub">Join thousands of professionals who use PortfolioAI to land their dream jobs.</p>
+    <button class="btn-primary" style="padding:14px 32px;font-size:15px;background:rgba(255,255,255,1);color:var(--blue);" onclick="goPage('builder')" data-i18n="cta.btn">Get Started Free →</button>
+  </div>
+</div>
+
+<!-- TEMPLATES PAGE -->
+<div class="page" id="page-templates">
+  <div class="section" style="max-width:1000px;">
+    <div class="section-badge" data-i18n="tpl.badge">Templates</div>
+    <h2 class="section-title" data-i18n="tpl.title">Choose your portfolio style</h2>
+    <p class="section-sub" data-i18n="tpl.sub">Each template is professionally designed and fully customizable.</p>
+    <div class="templates-grid">
+      <div class="template-card selected" onclick="selectTemplate(0)" id="tcard-0">
+        <div class="template-thumb" style="background:linear-gradient(135deg,#1E3A5F,#2D5A8E);">
+          <div style="padding:16px;color:#fff;opacity:.9;">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);margin-bottom:10px;"></div>
+            <div style="font-size:13px;font-weight:700;">Full Name</div>
+            <div style="font-size:10px;opacity:.7;margin-top:2px;">Position</div>
+            <div style="margin-top:10px;display:grid;grid-template-columns:1fr 2fr;gap:8px;">
+              <div style="display:flex;flex-direction:column;gap:4px;">
+                <div style="height:5px;background:rgba(255,255,255,.3);border-radius:2px;width:80%;"></div>
+                <div style="height:5px;background:rgba(255,255,255,.3);border-radius:2px;"></div>
+                <div style="height:5px;background:rgba(255,255,255,.3);border-radius:2px;width:60%;"></div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:4px;">
+                <div style="height:5px;background:rgba(255,255,255,.2);border-radius:2px;"></div>
+                <div style="height:5px;background:rgba(255,255,255,.2);border-radius:2px;width:90%;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="template-badge" style="background:#3B82F6;" data-i18n="tpl.popular">Popular</div>
+        </div>
+        <div class="template-info">
+          <h3 data-i18n="tpl.modern">Modern Professional</h3>
+          <p data-i18n="tpl.modern.desc">Bold, corporate, impressive</p>
+        </div>
+      </div>
+      <div class="template-card" onclick="selectTemplate(1)" id="tcard-1">
+        <div class="template-thumb" style="background:#F8FAFC;border-bottom:1px solid #E2E8F0;">
+          <div style="padding:16px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:32px;height:32px;border-radius:6px;background:#E2E8F0;"></div>
+              <div>
+                <div style="height:7px;background:#CBD5E1;border-radius:2px;width:80px;margin-bottom:4px;"></div>
+                <div style="height:5px;background:#E2E8F0;border-radius:2px;width:50px;"></div>
+              </div>
+            </div>
+            <div style="height:1px;background:#E2E8F0;margin-bottom:10px;"></div>
+            <div style="display:flex;flex-direction:column;gap:3px;">
+              <div style="height:5px;background:#E2E8F0;border-radius:2px;"></div>
+              <div style="height:5px;background:#E2E8F0;border-radius:2px;width:75%;"></div>
+              <div style="height:5px;background:#E2E8F0;border-radius:2px;width:60%;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="template-info">
+          <h3 data-i18n="tpl.minimal">Minimal Clean</h3>
+          <p data-i18n="tpl.minimal.desc">Simple, elegant, timeless</p>
+        </div>
+      </div>
+      <div class="template-card" onclick="selectTemplate(2)" id="tcard-2">
+        <div class="template-thumb" style="background:linear-gradient(135deg,#7C3AED,#EC4899);">
+          <div style="padding:16px;text-align:center;color:#fff;">
+            <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.25);margin:0 auto 8px;"></div>
+            <div style="font-size:12px;font-weight:700;">Full Name</div>
+            <div style="font-size:10px;opacity:.7;margin-top:2px;">Creative Director</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px;">
+              <div style="height:5px;background:rgba(255,255,255,.3);border-radius:2px;"></div>
+              <div style="height:5px;background:rgba(255,255,255,.3);border-radius:2px;"></div>
+              <div style="height:5px;background:rgba(255,255,255,.3);border-radius:2px;"></div>
+              <div style="height:5px;background:rgba(255,255,255,.3);border-radius:2px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="template-info">
+          <h3 data-i18n="tpl.creative">Creative Portfolio</h3>
+          <p data-i18n="tpl.creative.desc">Vibrant, bold, artistic</p>
+        </div>
+      </div>
+      <div class="template-card" onclick="selectTemplate(3)" id="tcard-3">
+        <div class="template-thumb" style="background:#065F46;">
+          <div style="padding:16px;color:#fff;opacity:.9;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);"></div>
+              <div>
+                <div style="font-size:12px;font-weight:700;">Full Name</div>
+                <div style="font-size:10px;opacity:.6;margin-top:2px;">Teacher / Educator</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:3px;">
+              <div style="height:5px;background:rgba(255,255,255,.25);border-radius:2px;"></div>
+              <div style="height:5px;background:rgba(255,255,255,.25);border-radius:2px;width:80%;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="template-info">
+          <h3 data-i18n="tpl.teacher">Teacher Portfolio</h3>
+          <p data-i18n="tpl.teacher.desc">Academic, authoritative</p>
+        </div>
+      </div>
+      <div class="template-card" onclick="selectTemplate(4)" id="tcard-4">
+        <div class="template-thumb" style="background:#FFFBEB;border-bottom:1px solid #FDE68A;">
+          <div style="padding:16px;text-align:center;">
+            <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#B45309,#92400E);margin:0 auto 8px;"></div>
+            <div style="font-size:12px;font-weight:700;color:#92400E;font-family:'Fraunces',serif;">Full Name</div>
+            <div style="font-size:10px;color:#B45309;margin-top:2px;">Senior Professional</div>
+            <div style="height:1px;background:#FDE68A;margin:8px 0;"></div>
+            <div style="display:flex;flex-direction:column;gap:3px;">
+              <div style="height:4px;background:#FDE68A;border-radius:2px;"></div>
+              <div style="height:4px;background:#FDE68A;border-radius:2px;width:70%;margin:0 auto;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="template-info">
+          <h3 data-i18n="tpl.elegant">Elegant Resume</h3>
+          <p data-i18n="tpl.elegant.desc">Classic, refined, senior</p>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:24px;text-align:center;">
+      <button class="btn-primary" style="padding:12px 28px;" onclick="goPage('builder')" data-i18n="tpl.start">Start Building →</button>
+    </div>
+  </div>
+</div>
+
+<!-- BUILDER PAGE -->
+<div class="page" id="page-builder">
+  <div class="builder-layout">
+    <div class="builder-sidebar">
+      <div style="margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;" data-i18n="builder.progress">Progress</div>
+        <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar" style="width:12.5%"></div></div>
+        <div style="font-size:12px;color:var(--gray-400);text-align:right;" id="progress-text">1 / 8</div>
+      </div>
+      <div id="steps-list"></div>
+    </div>
+    <div class="builder-content" id="builder-content"></div>
+  </div>
+</div>
+
+<!-- PREVIEW PAGE -->
+<div class="page" id="page-preview">
+  <div class="preview-wrap">
+    <div class="preview-sidebar">
+      <h3 style="font-size:14px;font-weight:800;color:var(--gray-900);margin-bottom:16px;" data-i18n="preview.title">Portfolio Preview</h3>
+      <div style="margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:600;color:var(--gray-500);margin-bottom:8px;" data-i18n="preview.template">Template</div>
+        <div id="preview-template-list" style="display:flex;flex-direction:column;gap:6px;"></div>
+      </div>
+      <button class="btn-primary" style="width:100%;margin-bottom:8px;" onclick="downloadPDF()" data-i18n="preview.download">⬇ Download PDF</button>
+      <button class="btn-secondary" style="width:100%;" onclick="window.print()" data-i18n="preview.print">🖨 Print</button>
+      <div style="margin-top:16px;padding:12px;background:var(--gray-50);border-radius:10px;border:1px solid var(--gray-200);">
+        <div style="font-size:11px;font-weight:700;color:var(--gray-500);margin-bottom:6px;" data-i18n="preview.quality">Portfolio Quality</div>
+        <div id="quality-score" style="font-size:24px;font-weight:800;color:var(--blue);">0%</div>
+        <div style="font-size:11px;color:var(--gray-400);margin-top:2px;" id="quality-label"></div>
+      </div>
+    </div>
+    <div class="preview-main">
+      <div class="portfolio-page" id="portfolio-preview"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Add Entry -->
+<div class="modal-overlay hidden" id="modal-overlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal()">✕</button>
+    <h2 id="modal-title">Add Entry</h2>
+    <p style="font-size:13px;color:var(--gray-400);margin-bottom:20px;" id="modal-sub"></p>
+    <div id="modal-form"></div>
+    <div style="display:flex;gap:10px;margin-top:16px;">
+      <button class="btn-primary" style="flex:1;" onclick="saveModalEntry()" data-i18n="modal.save">Save</button>
+      <button class="btn-secondary" onclick="closeModal()" data-i18n="modal.cancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// TRANSLATIONS
+// ============================================================
+const i18n = {
+  en: {
+    'nav.home':'Home','nav.templates':'Templates','nav.builder':'Builder','nav.preview':'Preview','nav.create':'Create Portfolio',
+    'hero.badge':'AI-Powered Portfolio Builder','hero.title':'Create Your <em>Professional Portfolio</em> in Minutes',
+    'hero.sub':'Build stunning, AI-enhanced portfolios that impress employers. Choose from beautiful templates and download as PDF.',
+    'hero.cta1':'✨ Create Portfolio','hero.cta2':'View Templates',
+    'stats.portfolios':'Portfolios created','stats.templates':'Premium templates','stats.ai':'Powered writing assistant','stats.langs':'Languages supported',
+    'features.badge':'Features','features.title':'Everything you need to stand out','features.sub':'Built for professionals, students, and creatives.',
+    'feat.ai':'AI Writing Assistant','feat.ai.desc':'Generate compelling "About Me" sections with one click.',
+    'feat.tpl':'5 Premium Templates','feat.tpl.desc':'Choose from Modern, Minimal, Creative, Teacher, and Elegant styles.',
+    'feat.pdf':'PDF Export','feat.pdf.desc':'Download as high-quality PDF, ready to share with employers.',
+    'feat.save':'Auto-Save','feat.save.desc':'Your progress is automatically saved so you never lose your work.',
+    'feat.lang':'Multilingual','feat.lang.desc':'Full support for Kazakh, Russian, and English languages.',
+    'feat.live':'Live Preview','feat.live.desc':'See your portfolio update in real-time as you type.',
+    'cta.title':'Ready to build your portfolio?','cta.sub':'Join thousands of professionals who use PortfolioAI.','cta.btn':'Get Started Free →',
+    'tpl.badge':'Templates','tpl.title':'Choose your portfolio style','tpl.sub':'Each template is professionally designed.',
+    'tpl.popular':'Popular','tpl.modern':'Modern Professional','tpl.modern.desc':'Bold, corporate, impressive',
+    'tpl.minimal':'Minimal Clean','tpl.minimal.desc':'Simple, elegant, timeless',
+    'tpl.creative':'Creative Portfolio','tpl.creative.desc':'Vibrant, bold, artistic',
+    'tpl.teacher':'Teacher Portfolio','tpl.teacher.desc':'Academic, authoritative',
+    'tpl.elegant':'Elegant Resume','tpl.elegant.desc':'Classic, refined, senior','tpl.start':'Start Building →',
+    'builder.progress':'Your Progress',
+    'step.personal':'Personal Info','step.education':'Education','step.experience':'Experience','step.skills':'Skills',
+    'step.achievements':'Achievements','step.projects':'Projects','step.social':'Social Media','step.extra':'Additional Info',
+    'preview.title':'Portfolio Preview','preview.template':'Template','preview.download':'⬇ Download PDF','preview.print':'🖨 Print',
+    'preview.quality':'Portfolio Quality','modal.save':'Save','modal.cancel':'Cancel',
+    'ai.generate':'✨ Generate with AI','ai.improve':'✨ Improve Text','ai.title':'AI Assistant',
+    'field.name':'Full Name','field.profession':'Profession / Title','field.about':'About Me',
+    'field.email':'Email','field.phone':'Phone','field.location':'Location','field.birth':'Date of Birth',
+    'field.university':'University / Institution','field.degree':'Degree','field.year':'Year',
+    'field.company':'Company / Organization','field.position':'Position / Role','field.duties':'Key Responsibilities',
+    'field.skill':'Skill Name','field.level':'Level (0-100)',
+    'field.award':'Award / Achievement','field.desc':'Description',
+    'field.project':'Project Name','field.tech':'Technologies Used',
+    'field.linkedin':'LinkedIn URL','field.github':'GitHub URL','field.website':'Personal Website',
+    'field.hobbies':'Hobbies & Interests','field.goals':'Career Goals',
+    'btn.add.edu':'+ Add Education','btn.add.exp':'+ Add Experience','btn.add.skill':'+ Add Skill',
+    'btn.add.ach':'+ Add Achievement','btn.add.proj':'+ Add Project',
+    'btn.next':'Next Step →','btn.prev':'← Previous','btn.preview':'Preview Portfolio',
+    'save.success':'✓ Saved automatically','quality.excellent':'Excellent! Keep it up.','quality.good':'Good portfolio!','quality.fair':'Add more sections.'
+  },
+  ru: {
+    'nav.home':'Главная','nav.templates':'Шаблоны','nav.builder':'Конструктор','nav.preview':'Просмотр','nav.create':'Создать портфолио',
+    'hero.badge':'Конструктор портфолио с ИИ','hero.title':'Создайте <em>профессиональное портфолио</em> за минуты',
+    'hero.sub':'Создавайте впечатляющие портфолио с помощью ИИ. Выбирайте из красивых шаблонов и скачивайте как PDF.',
+    'hero.cta1':'✨ Создать портфолио','hero.cta2':'Смотреть шаблоны',
+    'stats.portfolios':'Создано портфолио','stats.templates':'Премиум шаблонов','stats.ai':'ИИ-ассистент','stats.langs':'Языка поддерживается',
+    'features.badge':'Возможности','features.title':'Всё для выделения среди других','features.sub':'Создано для профессионалов, студентов и творческих людей.',
+    'feat.ai':'ИИ-помощник','feat.ai.desc':'Генерируйте раздел "О себе" одним кликом.',
+    'feat.tpl':'5 Премиум шаблонов','feat.tpl.desc':'Современный, минимальный, творческий, учительский и элегантный.',
+    'feat.pdf':'Экспорт в PDF','feat.pdf.desc':'Скачайте как высококачественный PDF файл.',
+    'feat.save':'Автосохранение','feat.save.desc':'Ваш прогресс сохраняется автоматически.',
+    'feat.lang':'Многоязычность','feat.lang.desc':'Полная поддержка казахского, русского и английского.',
+    'feat.live':'Живой просмотр','feat.live.desc':'Наблюдайте за обновлением портфолио в реальном времени.',
+    'cta.title':'Готовы создать своё портфолио?','cta.sub':'Присоединяйтесь к тысячам профессионалов.','cta.btn':'Начать бесплатно →',
+    'tpl.badge':'Шаблоны','tpl.title':'Выберите стиль портфолио','tpl.sub':'Каждый шаблон профессионально разработан.',
+    'tpl.popular':'Популярный','tpl.modern':'Современный профессиональный','tpl.modern.desc':'Смелый, корпоративный',
+    'tpl.minimal':'Минимальный чистый','tpl.minimal.desc':'Простой, элегантный',
+    'tpl.creative':'Творческое портфолио','tpl.creative.desc':'Яркий, смелый, художественный',
+    'tpl.teacher':'Портфолио учителя','tpl.teacher.desc':'Академический, авторитетный',
+    'tpl.elegant':'Элегантное резюме','tpl.elegant.desc':'Классический, утончённый','tpl.start':'Начать создание →',
+    'builder.progress':'Ваш прогресс',
+    'step.personal':'Личная информация','step.education':'Образование','step.experience':'Опыт работы','step.skills':'Навыки',
+    'step.achievements':'Достижения','step.projects':'Проекты','step.social':'Социальные сети','step.extra':'Дополнительно',
+    'preview.title':'Просмотр портфолио','preview.template':'Шаблон','preview.download':'⬇ Скачать PDF','preview.print':'🖨 Печать',
+    'preview.quality':'Качество портфолио','modal.save':'Сохранить','modal.cancel':'Отмена',
+    'ai.generate':'✨ Создать с помощью ИИ','ai.improve':'✨ Улучшить текст','ai.title':'ИИ Ассистент',
+    'field.name':'Полное имя','field.profession':'Должность / Специальность','field.about':'О себе',
+    'field.email':'Эл. почта','field.phone':'Телефон','field.location':'Местоположение','field.birth':'Дата рождения',
+    'field.university':'Университет / Учреждение','field.degree':'Степень','field.year':'Год',
+    'field.company':'Компания / Организация','field.position':'Должность / Роль','field.duties':'Ключевые обязанности',
+    'field.skill':'Название навыка','field.level':'Уровень (0-100)',
+    'field.award':'Награда / Достижение','field.desc':'Описание',
+    'field.project':'Название проекта','field.tech':'Используемые технологии',
+    'field.linkedin':'LinkedIn ссылка','field.github':'GitHub ссылка','field.website':'Личный сайт',
+    'field.hobbies':'Хобби и интересы','field.goals':'Карьерные цели',
+    'btn.add.edu':'+ Добавить образование','btn.add.exp':'+ Добавить опыт','btn.add.skill':'+ Добавить навык',
+    'btn.add.ach':'+ Добавить достижение','btn.add.proj':'+ Добавить проект',
+    'btn.next':'Следующий шаг →','btn.prev':'← Назад','btn.preview':'Просмотр портфолио',
+    'save.success':'✓ Сохранено автоматически','quality.excellent':'Отлично! Продолжайте.','quality.good':'Хорошее портфолио!','quality.fair':'Добавьте больше разделов.'
+  },
+  kk: {
+    'nav.home':'Басты бет','nav.templates':'Үлгілер','nav.builder':'Конструктор','nav.preview':'Алдын ала қарау','nav.create':'Портфолио жасау',
+    'hero.badge':'ЖИ арқылы Портфолио Конструкторы','hero.title':'<em>Кәсіби портфолионы</em> минуттарда жасаңыз',
+    'hero.sub':'ЖИ көмегімен жарқын портфолио жасаңыз. Әдемі үлгілерден таңдаңыз және PDF ретінде жүктеп алыңыз.',
+    'hero.cta1':'✨ Портфолио жасау','hero.cta2':'Үлгілерді қарау',
+    'stats.portfolios':'Жасалған портфолио','stats.templates':'Премиум үлгілер','stats.ai':'ЖИ ассистент','stats.langs':'Тіл қолданылады',
+    'features.badge':'Мүмкіндіктер','features.title':'Ерекшелену үшін барлығы','features.sub':'Мамандарға, студенттерге және шығармашыл адамдарға арналған.',
+    'feat.ai':'ЖИ Жазу Ассистенті','feat.ai.desc':'Бір батырмамен "Өзім туралы" бөлімін жасаңыз.',
+    'feat.tpl':'5 Премиум үлгі','feat.tpl.desc':'Заманауи, минималды, шығармашыл, мұғалімдік және элегантты.',
+    'feat.pdf':'PDF Экспорт','feat.pdf.desc':'Жоғары сапалы PDF файл ретінде жүктеп алыңыз.',
+    'feat.save':'Автосақтау','feat.save.desc':'Жұмысыңыз автоматты түрде сақталады.',
+    'feat.lang':'Көптілді','feat.lang.desc':'Қазақ, орыс және ағылшын тілдерін толық қолдау.',
+    'feat.live':'Тікелей алдын ала қарау','feat.live.desc':'Теру барысында портфолионың жаңаруын бақылаңыз.',
+    'cta.title':'Портфолио жасауға дайынсыз ба?','cta.sub':'Мыңдаған мамандарға қосылыңыз.','cta.btn':'Тегін бастау →',
+    'tpl.badge':'Үлгілер','tpl.title':'Портфолио стилін таңдаңыз','tpl.sub':'Әр үлгі кәсіби жасалған.',
+    'tpl.popular':'Танымал','tpl.modern':'Заманауи кәсіби','tpl.modern.desc':'Батыл, корпоративтік',
+    'tpl.minimal':'Минималды таза','tpl.minimal.desc':'Қарапайым, элегантты',
+    'tpl.creative':'Шығармашыл портфолио','tpl.creative.desc':'Жарқын, батыл, көркемдік',
+    'tpl.teacher':'Мұғалім портфолиосы','tpl.teacher.desc':'Академиялық, беделді',
+    'tpl.elegant':'Элегантты резюме','tpl.elegant.desc':'Классикалық, нәзік','tpl.start':'Жасауды бастау →',
+    'builder.progress':'Сіздің прогресс',
+    'step.personal':'Жеке ақпарат','step.education':'Білім','step.experience':'Жұмыс тәжірибесі','step.skills':'Дағдылар',
+    'step.achievements':'Жетістіктер','step.projects':'Жобалар','step.social':'Әлеуметтік желілер','step.extra':'Қосымша',
+    'preview.title':'Портфолио алдын ала қарау','preview.template':'Үлгі','preview.download':'⬇ PDF жүктеп алу','preview.print':'🖨 Басып шығару',
+    'preview.quality':'Портфолио сапасы','modal.save':'Сақтау','modal.cancel':'Болдырмау',
+    'ai.generate':'✨ ЖИ арқылы жасау','ai.improve':'✨ Мәтінді жақсарту','ai.title':'ЖИ Ассистент',
+    'field.name':'Толық аты-жөні','field.profession':'Мамандық / Лауазым','field.about':'Өзім туралы',
+    'field.email':'Эл. пошта','field.phone':'Телефон','field.location':'Орналасқан жері','field.birth':'Туған күні',
+    'field.university':'Университет / Мекеме','field.degree':'Дәреже','field.year':'Жыл',
+    'field.company':'Компания / Ұйым','field.position':'Лауазым / Рөл','field.duties':'Негізгі міндеттер',
+    'field.skill':'Дағды атауы','field.level':'Деңгей (0-100)',
+    'field.award':'Марапат / Жетістік','field.desc':'Сипаттама',
+    'field.project':'Жоба атауы','field.tech':'Қолданылған технологиялар',
+    'field.linkedin':'LinkedIn сілтемесі','field.github':'GitHub сілтемесі','field.website':'Жеке сайт',
+    'field.hobbies':'Хобби және қызығушылықтар','field.goals':'Мансаптық мақсаттар',
+    'btn.add.edu':'+ Білім қосу','btn.add.exp':'+ Тәжірибе қосу','btn.add.skill':'+ Дағды қосу',
+    'btn.add.ach':'+ Жетістік қосу','btn.add.proj':'+ Жоба қосу',
+    'btn.next':'Келесі қадам →','btn.prev':'← Артқа','btn.preview':'Портфолионы қарау',
+    'save.success':'✓ Автоматты түрде сақталды','quality.excellent':'Тамаша! Жалғастырыңыз.','quality.good':'Жақсы портфолио!','quality.fair':'Бөлімдерді толтырыңыз.'
+  }
+};
+
+let lang = 'en';
+function t(key) { return (i18n[lang] && i18n[lang][key]) || i18n.en[key] || key; }
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${l}')"]`).classList.add('active');
+  applyTranslations();
+  renderBuilder();
+  if(currentPage==='preview') renderPreview();
+}
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(el.tagName==='INPUT') el.placeholder = t(key);
+    else el.innerHTML = t(key);
+  });
+}
+
+// ============================================================
+// STATE
+// ============================================================
+let portfolio = {
+  personal:{name:'',profession:'',about:'',email:'',phone:'',location:'',birth:'',photo:''},
+  education:[],experience:[],skills:[],achievements:[],projects:[],
+  social:{linkedin:'',github:'',website:''},
+  extra:{hobbies:'',goals:''}
+};
+let selectedTemplate = 0;
+let currentStep = 0;
+let currentPage = 'home';
+let modalType = '';
+let modalEditIndex = -1;
+
+// Load from storage
+try{const s=localStorage.getItem('portfolioAI_data');if(s){portfolio=JSON.parse(s);}const t2=localStorage.getItem('portfolioAI_tpl');if(t2){selectedTemplate=parseInt(t2);}}catch(e){}
+
+function save(){
+  try{localStorage.setItem('portfolioAI_data',JSON.stringify(portfolio));localStorage.setItem('portfolioAI_tpl',selectedTemplate);}catch(e){}
+  showToast(t('save.success'),'success');
+}
+let autoSaveTimer;
+function triggerAutoSave(){clearTimeout(autoSaveTimer);autoSaveTimer=setTimeout(save,1500);}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function goPage(p) {
+  currentPage = p;
+  document.querySelectorAll('.page').forEach(pg=>pg.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l=>{if(l.onclick&&l.onclick.toString().includes("'"+p+"'"))l.classList.add('active');});
+  if(p==='builder') renderBuilder();
+  if(p==='preview') renderPreview();
+  if(p==='templates') renderTemplatePreviewList();
+  window.scrollTo(0,0);
+}
+
+// ============================================================
+// BUILDER
+// ============================================================
+const steps = [
+  {key:'personal',icon:'👤'},
+  {key:'education',icon:'🎓'},
+  {key:'experience',icon:'💼'},
+  {key:'skills',icon:'⚡'},
+  {key:'achievements',icon:'🏆'},
+  {key:'projects',icon:'🚀'},
+  {key:'social',icon:'🔗'},
+  {key:'extra',icon:'✨'}
+];
+
+function renderBuilder() {
+  const stepsHtml = steps.map((s,i) => `
+    <div class="step-item ${i===currentStep?'active':''} ${isStepDone(i)?'done':''}" onclick="goStep(${i})">
+      <div class="step-num">${isStepDone(i)&&i!==currentStep?'✓':i+1}</div>
+      <div class="step-label">${t('step.'+s.key)}</div>
+    </div>`).join('');
+  document.getElementById('steps-list').innerHTML = stepsHtml;
+  const pct = Math.round(((currentStep+1)/steps.length)*100);
+  document.getElementById('progress-bar').style.width = pct+'%';
+  document.getElementById('progress-text').textContent = `${currentStep+1} / ${steps.length}`;
+  renderStep(currentStep);
+}
+
+function isStepDone(i){
+  const s = steps[i].key;
+  if(s==='personal') return portfolio.personal.name.length>0;
+  if(s==='education') return portfolio.education.length>0;
+  if(s==='experience') return portfolio.experience.length>0;
+  if(s==='skills') return portfolio.skills.length>0;
+  if(s==='achievements') return portfolio.achievements.length>0;
+  if(s==='projects') return portfolio.projects.length>0;
+  if(s==='social') return portfolio.social.linkedin||portfolio.social.github;
+  if(s==='extra') return portfolio.extra.hobbies.length>0;
+  return false;
+}
+
+function goStep(i) { currentStep = i; renderBuilder(); }
+
+function renderStep(step) {
+  const s = steps[step];
+  let html = '';
+  if(s.key==='personal') html = renderPersonalStep();
+  else if(s.key==='education') html = renderListStep('education','edu');
+  else if(s.key==='experience') html = renderListStep('experience','exp');
+  else if(s.key==='skills') html = renderSkillsStep();
+  else if(s.key==='achievements') html = renderListStep('achievements','ach');
+  else if(s.key==='projects') html = renderListStep('projects','proj');
+  else if(s.key==='social') html = renderSocialStep();
+  else if(s.key==='extra') html = renderExtraStep();
+  document.getElementById('builder-content').innerHTML = html;
+  // Attach live inputs
+  attachPersonalListeners();
+}
+
+function renderPersonalStep() {
+  const p = portfolio.personal;
+  return `
+  <div class="ai-panel">
+    <h3>🤖 ${t('ai.title')}</h3>
+    <p>${lang==='kk'?'Аты-жөніңізді және мамандығыңызды енгізіп, ЖИ арқылы кәсіби "Өзім туралы" мәтін жасаңыз.':lang==='ru'?'Введите имя и профессию, затем создайте профессиональный раздел "О себе" с помощью ИИ.':'Enter your name and profession, then let AI generate your professional "About Me" section.'}</p>
+    <button class="btn-primary btn-sm" onclick="generateAboutMe()">${t('ai.generate')}</button>
+    <div id="ai-result" style="margin-top:10px;display:none;"></div>
+  </div>
+  <div class="form-card">
+    <h2>👤 ${t('step.personal')}</h2>
+    <p class="subtitle">${lang==='kk'?'Негізгі ақпаратыңызды толтырыңыз':lang==='ru'?'Заполните основную информацию':'Fill in your basic information'}</p>
+    <div style="text-align:center;margin-bottom:16px;">
+      <div id="photo-preview" style="width:80px;height:80px;border-radius:50%;background:var(--blue-light);border:3px solid var(--blue-mid);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;">${p.photo?`<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover;">`:'📷'}</div>
+      <label class="btn-secondary btn-sm" style="display:inline-block;cursor:pointer;">📷 ${lang==='kk'?'Фото жүктеу':lang==='ru'?'Загрузить фото':'Upload Photo'}<input type="file" accept="image/*" style="display:none;" onchange="uploadPhoto(this)"></label>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>${t('field.name')}</label><input id="p-name" value="${p.name}" placeholder="${t('field.name')}" oninput="updatePersonal('name',this.value)"></div>
+      <div class="form-group"><label>${t('field.profession')}</label><input id="p-prof" value="${p.profession}" placeholder="${t('field.profession')}" oninput="updatePersonal('profession',this.value)"></div>
+    </div>
+    <div class="form-group"><label>${t('field.about')}</label><textarea id="p-about" rows="4" placeholder="${t('field.about')}" oninput="updatePersonal('about',this.value)" style="resize:vertical;">${p.about}</textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label>${t('field.email')}</label><input value="${p.email}" placeholder="${t('field.email')}" oninput="updatePersonal('email',this.value)"></div>
+      <div class="form-group"><label>${t('field.phone')}</label><input value="${p.phone}" placeholder="${t('field.phone')}" oninput="updatePersonal('phone',this.value)"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>${t('field.location')}</label><input value="${p.location}" placeholder="${t('field.location')}" oninput="updatePersonal('location',this.value)"></div>
+      <div class="form-group"><label>${t('field.birth')}</label><input type="date" value="${p.birth}" oninput="updatePersonal('birth',this.value)"></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;">
+    <button class="btn-primary" onclick="nextStep()">${t('btn.next')}</button>
+  </div>`;
+}
+
+function renderListStep(type, addKey) {
+  const items = portfolio[type];
+  const labels = {
+    education:{main:'field.university',sub:'field.degree',year:'field.year'},
+    experience:{main:'field.company',sub:'field.position',year:'field.duties'},
+    achievements:{main:'field.award',sub:'field.desc'},
+    projects:{main:'field.project',sub:'field.tech'}
+  };
+  const entriesHtml = items.map((item,i) => `
+    <div class="entry-card">
+      <button class="remove-btn" onclick="removeEntry('${type}',${i})">✕</button>
+      <h4>${item.title||item.company||item.award||item.name||'—'}</h4>
+      <p>${item.subtitle||item.position||item.desc||item.tech||''} ${item.year?'· '+item.year:''}</p>
+    </div>`).join('');
+  return `
+  <div class="form-card">
+    <h2>${steps.find(s=>s.key===type).icon} ${t('step.'+type)}</h2>
+    <p class="subtitle">${lang==='kk'?'Ақпарат қосыңыз':lang==='ru'?'Добавьте информацию':'Add your information'}</p>
+    ${entriesHtml}
+    <button class="add-btn" onclick="openModal('${type}')">${t('btn.add.'+addKey)}</button>
+  </div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;">
+    <button class="btn-secondary" onclick="prevStep()">${t('btn.prev')}</button>
+    <button class="btn-primary" onclick="nextStep()">${t('btn.next')}</button>
+  </div>`;
+}
+
+function renderSkillsStep() {
+  const skillsHtml = portfolio.skills.map((s,i) => `
+    <div class="skill-bar">
+      <div class="skill-bar-label">
+        <span>${s.name}</span>
+        <small>${s.level}%</small>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:${s.level}%"></div></div>
+      <button onclick="removeEntry('skills',${i})" style="font-size:11px;background:none;border:none;color:var(--gray-400);cursor:pointer;margin-top:3px;">✕ ${lang==='kk'?'Жою':lang==='ru'?'Удалить':'Remove'}</button>
+    </div>`).join('');
+  return `
+  <div class="form-card">
+    <h2>⚡ ${t('step.skills')}</h2>
+    <p class="subtitle">${lang==='kk'?'Дағдыларыңызды және деңгейлерін қосыңыз':lang==='ru'?'Добавьте навыки и их уровень':'Add your skills and proficiency levels'}</p>
+    ${skillsHtml}
+    <button class="add-btn" onclick="openModal('skills')">${t('btn.add.skill')}</button>
+  </div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;">
+    <button class="btn-secondary" onclick="prevStep()">${t('btn.prev')}</button>
+    <button class="btn-primary" onclick="nextStep()">${t('btn.next')}</button>
+  </div>`;
+}
+
+function renderSocialStep() {
+  const s = portfolio.social;
+  return `
+  <div class="form-card">
+    <h2>🔗 ${t('step.social')}</h2>
+    <p class="subtitle">${lang==='kk'?'Сілтемелерді қосыңыз':lang==='ru'?'Добавьте ссылки':'Add your social media links'}</p>
+    <div class="form-group"><label>LinkedIn</label><input value="${s.linkedin}" placeholder="${t('field.linkedin')}" oninput="updateSocial('linkedin',this.value)"></div>
+    <div class="form-group"><label>GitHub</label><input value="${s.github}" placeholder="${t('field.github')}" oninput="updateSocial('github',this.value)"></div>
+    <div class="form-group"><label>${lang==='kk'?'Жеке сайт':lang==='ru'?'Личный сайт':'Personal Website'}</label><input value="${s.website}" placeholder="${t('field.website')}" oninput="updateSocial('website',this.value)"></div>
+  </div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;">
+    <button class="btn-secondary" onclick="prevStep()">${t('btn.prev')}</button>
+    <button class="btn-primary" onclick="nextStep()">${t('btn.next')}</button>
+  </div>`;
+}
+
+function renderExtraStep() {
+  const e = portfolio.extra;
+  return `
+  <div class="form-card">
+    <h2>✨ ${t('step.extra')}</h2>
+    <p class="subtitle">${lang==='kk'?'Қосымша ақпарат':lang==='ru'?'Дополнительная информация':'Additional information about you'}</p>
+    <div class="form-group"><label>${t('field.hobbies')}</label><textarea rows="3" placeholder="${t('field.hobbies')}" oninput="updateExtra('hobbies',this.value)" style="resize:vertical;">${e.hobbies}</textarea></div>
+    <div class="form-group"><label>${t('field.goals')}</label><textarea rows="3" placeholder="${t('field.goals')}" oninput="updateExtra('goals',this.value)" style="resize:vertical;">${e.goals}</textarea></div>
+  </div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;">
+    <button class="btn-secondary" onclick="prevStep()">${t('btn.prev')}</button>
+    <button class="btn-primary" onclick="save()">${lang==='kk'?'💾 Сақтау':lang==='ru'?'💾 Сохранить':'💾 Save'}</button>
+    <button class="btn-primary" onclick="goPage('preview')" style="background:linear-gradient(135deg,#059669,#0D9488);">${t('btn.preview')}</button>
+  </div>`;
+}
+
+function attachPersonalListeners() {}
+
+function updatePersonal(field, value) {
+  portfolio.personal[field] = value;
+  triggerAutoSave();
+}
+function updateSocial(field, value) {
+  portfolio.social[field] = value;
+  triggerAutoSave();
+}
+function updateExtra(field, value) {
+  portfolio.extra[field] = value;
+  triggerAutoSave();
+}
+function nextStep() {
+  if(currentStep < steps.length-1) { currentStep++; renderBuilder(); }
+}
+function prevStep() {
+  if(currentStep > 0) { currentStep--; renderBuilder(); }
+}
+
+function uploadPhoto(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    portfolio.personal.photo = e.target.result;
+    const prev = document.getElementById('photo-preview');
+    if(prev) prev.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;">`;
+    triggerAutoSave();
+  };
+  reader.readAsDataURL(file);
+}
+
+// ============================================================
+// AI GENERATION
+// ============================================================
+async function generateAboutMe() {
+  const name = portfolio.personal.name || 'Professional';
+  const prof = portfolio.personal.profession || 'professional';
+  const btn = document.querySelector('.ai-panel button');
+  const resultDiv = document.getElementById('ai-result');
+  if(!resultDiv) return;
+  resultDiv.style.display='block';
+  resultDiv.innerHTML = `<div class="ai-loading"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div><span style="margin-left:4px;">${lang==='kk'?'Жасалуда...':lang==='ru'?'Генерация...':'Generating...'}</span></div>`;
+  btn.disabled = true;
+  try {
+    const prompt = lang==='kk'
+      ? `${name} атты ${prof} маманы үшін портфолиоға арналған кәсіби "Өзім туралы" бөлімін қазақша жаз. 3-4 сөйлем.`
+      : lang==='ru'
+      ? `Напиши профессиональный раздел "О себе" для портфолио специалиста по имени ${name}, работающего как ${prof}. 3-4 предложения, профессионально.`
+      : `Write a professional "About Me" section for a portfolio of ${name}, a ${prof}. 3-4 sentences, confident and professional tone.`;
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+    });
+    const data = await resp.json();
+    const text = data.content?.map(c=>c.text||'').join('') || 'Error generating text.';
+    resultDiv.innerHTML = `<div class="ai-result">${text}<br><button class="btn-primary btn-sm" style="margin-top:10px;" onclick="useAIText('${encodeURIComponent(text)}')">${lang==='kk'?'Пайдалану':lang==='ru'?'Использовать':'Use this text'}</button></div>`;
+  } catch(e) {
+    resultDiv.innerHTML = `<div class="ai-result" style="color:var(--gray-500);">${lang==='kk'?'Қате орын алды. Қайтадан көріңіз.':lang==='ru'?'Ошибка. Попробуйте снова.':'Error. Please try again.'}</div>`;
+  }
+  btn.disabled=false;
+}
+
+function useAIText(encoded) {
+  const text = decodeURIComponent(encoded);
+  portfolio.personal.about = text;
+  const ta = document.getElementById('p-about');
+  if(ta) ta.value = text;
+  triggerAutoSave();
+  showToast(lang==='kk'?'✓ Мәтін орналастырылды':lang==='ru'?'✓ Текст применён':'✓ Text applied','success');
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openModal(type) {
+  modalType = type;
+  modalEditIndex = -1;
+  const overlay = document.getElementById('modal-overlay');
+  overlay.classList.remove('hidden');
+  const formMap = {
+    education: `
+      <div class="form-group"><label>${t('field.university')}</label><input id="m-title" placeholder="${t('field.university')}"></div>
+      <div class="form-group"><label>${t('field.degree')}</label><input id="m-subtitle" placeholder="${t('field.degree')}"></div>
+      <div class="form-group"><label>${t('field.year')}</label><input id="m-year" placeholder="2020-2024"></div>`,
+    experience: `
+      <div class="form-group"><label>${t('field.company')}</label><input id="m-title" placeholder="${t('field.company')}"></div>
+      <div class="form-group"><label>${t('field.position')}</label><input id="m-subtitle" placeholder="${t('field.position')}"></div>
+      <div class="form-group"><label>${t('field.duties')}</label><textarea id="m-desc" rows="3" style="resize:vertical;" placeholder="${t('field.duties')}"></textarea></div>
+      <div class="form-group"><label>${t('field.year')}</label><input id="m-year" placeholder="2022-2024"></div>`,
+    skills: `
+      <div class="form-group"><label>${t('field.skill')}</label><input id="m-title" placeholder="e.g. JavaScript, React, Python..."></div>
+      <div class="form-group"><label>${t('field.level')}</label><input id="m-level" type="range" min="10" max="100" value="75" oninput="document.getElementById('m-level-val').textContent=this.value+'%'" style="width:100%;margin-top:4px;"></div>
+      <div style="text-align:center;font-size:14px;font-weight:700;color:var(--blue);" id="m-level-val">75%</div>`,
+    achievements: `
+      <div class="form-group"><label>${t('field.award')}</label><input id="m-title" placeholder="${t('field.award')}"></div>
+      <div class="form-group"><label>${t('field.desc')}</label><textarea id="m-desc" rows="3" style="resize:vertical;" placeholder="${t('field.desc')}"></textarea></div>
+      <div class="form-group"><label>${t('field.year')}</label><input id="m-year" placeholder="2023"></div>`,
+    projects: `
+      <div class="form-group"><label>${t('field.project')}</label><input id="m-title" placeholder="${t('field.project')}"></div>
+      <div class="form-group"><label>${t('field.desc')}</label><textarea id="m-desc" rows="3" style="resize:vertical;" placeholder="${t('field.desc')}"></textarea></div>
+      <div class="form-group"><label>${t('field.tech')}</label><input id="m-tech" placeholder="React, Node.js, MongoDB..."></div>`
+  };
+  const titleMap = {education:t('step.education'),experience:t('step.experience'),skills:t('step.skills'),achievements:t('step.achievements'),projects:t('step.projects')};
+  document.getElementById('modal-title').textContent = titleMap[type]||'Add';
+  document.getElementById('modal-sub').textContent = lang==='kk'?'Ақпаратты толтырыңыз':lang==='ru'?'Заполните информацию':'Fill in the details';
+  document.getElementById('modal-form').innerHTML = formMap[type]||'';
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.add('hidden');
+}
+
+function saveModalEntry() {
+  const type = modalType;
+  const titleEl = document.getElementById('m-title');
+  if(!titleEl || !titleEl.value.trim()) { showToast(lang==='kk'?'Атауды енгізіңіз':lang==='ru'?'Введите название':'Please enter a title'); return; }
+  if(type==='skills') {
+    const lvl = document.getElementById('m-level');
+    portfolio.skills.push({name:titleEl.value.trim(),level:lvl?parseInt(lvl.value):75});
+  } else if(type==='education') {
+    portfolio.education.push({title:titleEl.value.trim(),subtitle:(document.getElementById('m-subtitle')||{}).value||'',year:(document.getElementById('m-year')||{}).value||''});
+  } else if(type==='experience') {
+    portfolio.experience.push({company:titleEl.value.trim(),position:(document.getElementById('m-subtitle')||{}).value||'',desc:(document.getElementById('m-desc')||{}).value||'',year:(document.getElementById('m-year')||{}).value||''});
+  } else if(type==='achievements') {
+    portfolio.achievements.push({award:titleEl.value.trim(),desc:(document.getElementById('m-desc')||{}).value||'',year:(document.getElementById('m-year')||{}).value||''});
+  } else if(type==='projects') {
+    portfolio.projects.push({name:titleEl.value.trim(),desc:(document.getElementById('m-desc')||{}).value||'',tech:(document.getElementById('m-tech')||{}).value||''});
+  }
+  closeModal();
+  triggerAutoSave();
+  renderBuilder();
+}
+
+function removeEntry(type, idx) {
+  portfolio[type].splice(idx,1);
+  triggerAutoSave();
+  renderBuilder();
+}
+
+// ============================================================
+// TEMPLATES
+// ============================================================
+function selectTemplate(i) {
+  selectedTemplate = i;
+  document.querySelectorAll('.template-card').forEach((c,idx)=>c.classList.toggle('selected',idx===i));
+  save();
+}
+
+function renderTemplatePreviewList() {
+  const names = ['Modern Professional','Minimal Clean','Creative Portfolio','Teacher Portfolio','Elegant Resume'];
+  const html = names.map((n,i) => `
+    <button onclick="selectedTemplate=${i};renderPreview();" style="width:100%;padding:8px 12px;background:${selectedTemplate===i?'var(--blue-light)':'var(--white)'};border:1.5px solid ${selectedTemplate===i?'var(--blue)':'var(--gray-200)'};border-radius:8px;font-size:12px;font-weight:600;color:${selectedTemplate===i?'var(--blue)':'var(--gray-600)'};cursor:pointer;text-align:left;transition:all .2s;">${n}</button>`
+  ).join('');
+  document.getElementById('preview-template-list').innerHTML = html;
+}
+
+// ============================================================
+// PREVIEW & PORTFOLIO RENDER
+// ============================================================
+function renderPreview() {
+  renderTemplatePreviewList();
+  const p = portfolio.personal;
+  const avatarHtml = p.photo
+    ? `<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover;">`
+    : `<span>${(p.name||'?').charAt(0).toUpperCase()}</span>`;
+  const templates = [renderModern,renderMinimal,renderCreative,renderTeacher,renderElegant];
+  const html = (templates[selectedTemplate]||renderModern)(portfolio, avatarHtml);
+  document.getElementById('portfolio-preview').innerHTML = html;
+  // Quality score
+  let score = 0;
+  if(p.name) score+=15;
+  if(p.profession) score+=10;
+  if(p.about) score+=15;
+  if(portfolio.education.length) score+=15;
+  if(portfolio.experience.length) score+=15;
+  if(portfolio.skills.length) score+=10;
+  if(portfolio.achievements.length) score+=10;
+  if(portfolio.social.linkedin||portfolio.social.github) score+=10;
+  document.getElementById('quality-score').textContent = score+'%';
+  document.getElementById('quality-label').textContent = score>=80?t('quality.excellent'):score>=50?t('quality.good'):t('quality.fair');
+}
+
+function renderModern(d, av) {
+  const p = d.personal;
+  return `<div class="tpl-modern">
+    <div class="port-header">
+      <div class="port-avatar">${av}</div>
+      <div>
+        <div class="port-name">${p.name||'Your Name'}</div>
+        <div class="port-role">${p.profession||'Your Profession'}</div>
+        <div class="port-contact">
+          ${p.email?`<span>✉ ${p.email}</span>`:''}
+          ${p.phone?`<span>☎ ${p.phone}</span>`:''}
+          ${p.location?`<span>📍 ${p.location}</span>`:''}
+        </div>
+      </div>
+    </div>
+    <div class="port-body">
+      <div class="port-left">
+        ${d.skills.length?`<div class="tpl-section"><div class="tpl-section-title">Skills</div>${d.skills.map(s=>`<div class="tpl-skill"><div class="tpl-skill-row"><span>${s.name}</span><span>${s.level}%</span></div><div class="tpl-bar"><div class="tpl-bar-fill" style="width:${s.level}%;background:linear-gradient(90deg,#3B82F6,#6366F1);"></div></div></div>`).join('')}</div>`:''}
+        ${d.social.linkedin||d.social.github?`<div class="tpl-section"><div class="tpl-section-title">Links</div>${d.social.linkedin?`<div style="font-size:12px;color:var(--gray-600);margin-bottom:6px;">🔗 LinkedIn</div>`:''}${d.social.github?`<div style="font-size:12px;color:var(--gray-600);">💻 GitHub</div>`:''}</div>`:''}
+        ${d.extra.hobbies?`<div class="tpl-section"><div class="tpl-section-title">Hobbies</div><p style="font-size:12px;color:var(--gray-600);line-height:1.6;">${d.extra.hobbies}</p></div>`:''}
+      </div>
+      <div class="port-right">
+        ${p.about?`<div class="tpl-section"><div class="tpl-section-title">About</div><p style="font-size:13px;color:var(--gray-600);line-height:1.7;">${p.about}</p></div>`:''}
+        ${d.experience.length?`<div class="tpl-section"><div class="tpl-section-title">Experience</div>${d.experience.map(e=>`<div class="tpl-entry"><div class="date">${e.year}</div><h4>${e.position} at ${e.company}</h4><p>${e.desc}</p></div>`).join('')}</div>`:''}
+        ${d.education.length?`<div class="tpl-section"><div class="tpl-section-title">Education</div>${d.education.map(e=>`<div class="tpl-entry"><div class="date">${e.year}</div><h4>${e.title}</h4><p>${e.subtitle}</p></div>`).join('')}</div>`:''}
+        ${d.achievements.length?`<div class="tpl-section"><div class="tpl-section-title">Achievements</div>${d.achievements.map(a=>`<div class="tpl-entry"><h4>🏆 ${a.award}</h4><p>${a.desc} ${a.year?'('+a.year+')':''}</p></div>`).join('')}</div>`:''}
+        ${d.projects.length?`<div class="tpl-section"><div class="tpl-section-title">Projects</div>${d.projects.map(pr=>`<div class="tpl-entry"><h4>${pr.name}</h4><p>${pr.desc}</p><p style="margin-top:4px;">${pr.tech.split(',').map(t2=>`<span class="tag tag-blue">${t2.trim()}</span>`).join('')}</p></div>`).join('')}</div>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderMinimal(d, av) {
+  const p = d.personal;
+  return `<div class="tpl-minimal">
+    <div class="port-header">
+      <div class="port-avatar">${av}</div>
+      <div>
+        <div class="port-name">${p.name||'Your Name'}</div>
+        <div class="port-role">${p.profession||'Your Profession'}</div>
+        <div style="font-size:12px;color:var(--gray-400);margin-top:8px;display:flex;gap:16px;flex-wrap:wrap;">
+          ${p.email?`<span>${p.email}</span>`:''}${p.phone?`<span>${p.phone}</span>`:''}${p.location?`<span>${p.location}</span>`:''}
+        </div>
+      </div>
+    </div>
+    <div class="port-body">
+      <div>
+        ${d.skills.length?`<div class="tpl-section"><div class="tpl-section-title">Skills</div>${d.skills.map(s=>`<div class="tpl-skill"><div class="tpl-skill-row"><span>${s.name}</span></div><div class="tpl-bar"><div class="tpl-bar-fill" style="width:${s.level}%;background:var(--gray-800);"></div></div></div>`).join('')}</div>`:''}
+        ${d.education.length?`<div class="tpl-section"><div class="tpl-section-title">Education</div>${d.education.map(e=>`<div class="tpl-entry"><div class="date">${e.year}</div><h4>${e.title}</h4><p>${e.subtitle}</p></div>`).join('')}</div>`:''}
+      </div>
+      <div>
+        ${p.about?`<div class="tpl-section"><div class="tpl-section-title">Profile</div><p style="font-size:13px;color:var(--gray-600);line-height:1.7;">${p.about}</p></div>`:''}
+        ${d.experience.length?`<div class="tpl-section"><div class="tpl-section-title">Experience</div>${d.experience.map(e=>`<div class="tpl-entry"><div class="date">${e.year}</div><h4>${e.position} — ${e.company}</h4><p>${e.desc}</p></div>`).join('')}</div>`:''}
+        ${d.achievements.length?`<div class="tpl-section"><div class="tpl-section-title">Achievements</div>${d.achievements.map(a=>`<div class="tpl-entry"><h4>${a.award}</h4><p>${a.desc}</p></div>`).join('')}</div>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderCreative(d, av) {
+  const p = d.personal;
+  return `<div class="tpl-creative">
+    <div class="port-header">
+      <div class="port-avatar">${av}</div>
+      <div class="port-name">${p.name||'Your Name'}</div>
+      <div class="port-role">${p.profession||'Creative Professional'}</div>
+      <div style="display:flex;justify-content:center;gap:16px;margin-top:12px;flex-wrap:wrap;">
+        ${p.email?`<span style="font-size:11px;opacity:.8;">${p.email}</span>`:''}${p.phone?`<span style="font-size:11px;opacity:.8;">${p.phone}</span>`:''}
+      </div>
+    </div>
+    <div class="port-body">
+      <div>
+        ${p.about?`<div class="tpl-section"><div class="tpl-section-title">About</div><p style="font-size:13px;color:var(--gray-600);line-height:1.7;">${p.about}</p></div>`:''}
+        ${d.skills.length?`<div class="tpl-section"><div class="tpl-section-title">Skills</div>${d.skills.map(s=>`<div class="tpl-skill"><div class="tpl-skill-row"><span>${s.name}</span><span>${s.level}%</span></div><div class="tpl-bar"><div class="tpl-bar-fill" style="width:${s.level}%;background:linear-gradient(90deg,#7C3AED,#EC4899);"></div></div></div>`).join('')}</div>`:''}
+        ${d.education.length?`<div class="tpl-section"><div class="tpl-section-title">Education</div>${d.education.map(e=>`<div class="tpl-entry"><div class="date">${e.year}</div><h4>${e.title}</h4><p>${e.subtitle}</p></div>`).join('')}</div>`:''}
+      </div>
+      <div>
+        ${d.experience.length?`<div class="tpl-section"><div class="tpl-section-title">Experience</div>${d.experience.map(e=>`<div class="tpl-entry"><div class="date">${e.year}</div><h4>${e.position}</h4><p style="color:#7C3AED;font-size:11px;">${e.company}</p><p>${e.desc}</p></div>`).join('')}</div>`:''}
+        ${d.projects.length?`<div class="tpl-section"><div class="tpl-section-title">Projects</div>${d.projects.map(pr=>`<div class="tpl-entry"><h4>${pr.name}</h4><p>${pr.desc}</p><p>${pr.tech.split(',').map(tt=>`<span class="tag tag-purple">${tt.trim()}</span>`).join('')}</p></div>`).join('')}</div>`:''}
+        ${d.achievements.length?`<div class="tpl-section"><div class="tpl-section-title">Awards</div>${d.achievements.map(a=>`<div class="tpl-entry"><h4>🏆 ${a.award}</h4><p>${a.desc}</p></div>`).join('')}</div>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderTeacher(d, av) {
+  const p = d.personal;
+  return `<div class="tpl-teacher">
+    <div class="port-header">
+      <div class="port-avatar">${av}</div>
+      <div>
+        <div class="port-name">${p.name||'Your Name'}</div>
+        <div class="port-role">${p.profession||'Educator / Teacher'}</div>
+        <div style="font-size:12px;opacity:.7;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap;">
+          ${p.email?`<span>✉ ${p.email}</span>`:''}${p.location?`<span>📍 ${p.location}</span>`:''}
+        </div>
+      </div>
+    </div>
+    <div class="port-body">
+      ${p.about?`<div class="tpl-section"><div class="tpl-section-title">Professional Statement</div><p style="font-size:13px;color:var(--gray-600);line-height:1.7;">${p.about}</p></div>`:''}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+        <div>
+          ${d.education.length?`<div class="tpl-section"><div class="tpl-section-title">Education</div>${d.education.map(e=>`<div class="tpl-entry"><div class="date">${e.year}</div><h4>${e.title}</h4><p>${e.subtitle}</p></div>`).join('')}</div>`:''}
+          ${d.skills.length?`<div class="tpl-section"><div class="tpl-section-title">Skills</div>${d.skills.map(s=>`<div class="tpl-skill"><div class="tpl-skill-row"><span>${s.name}</span><span>${s.level}%</span></div><div class="tpl-bar"><div class="tpl-bar-fill" style="width:${s.level}%;background:linear-gradient(90deg,#065F46,#059669);"></div></div></div>`).join('')}</div>`:''}
+        </div>
+        <div>
+          ${d.experience.length?`<div class="tpl-section"><div class="tpl-section-title">Teaching Experience</div>${d.experience.map(e=>`<div class="tpl-entry"><div class="date">${e.year}</div><h4>${e.position}</h4><p style="font-weight:600;font-size:11px;color:#065F46;">${e.company}</p><p>${e.desc}</p></div>`).join('')}</div>`:''}
+          ${d.achievements.length?`<div class="tpl-section"><div class="tpl-section-title">Achievements</div>${d.achievements.map(a=>`<div class="tpl-entry"><h4>🏆 ${a.award}</h4><p>${a.desc}</p></div>`).join('')}</div>`:''}
+        </div>
+      </div>
+      ${d.extra.hobbies?`<div class="tpl-section" style="margin-top:12px;"><div class="tpl-section-title">Interests</div><p style="font-size:13px;color:var(--gray-600);">${d.extra.hobbies}</p></div>`:''}
+    </div>
+  </div>`;
+}
+
+function renderElegant(d, av) {
+  const p = d.personal;
+  return `<div class="tpl-elegant">
+    <div class="port-header">
+      <div class="port-avatar">${av}</div>
+      <div class="port-name">${p.name||'Your Name'}</div>
+      <div class="port-role">${p.profession||'Senior Professional'}</div>
+      <div style="font-size:12px;color:var(--gray-400);margin-top:10px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;">
+        ${p.email?`<span>${p.email}</span>`:''}${p.phone?`<span>${p.phone}</span>`:''}${p.location?`<span>${p.location}</span>`:''}
+      </div>
+    </div>
+    <div class="port-body">
+      <div>
+        ${p.about?`<div class="tpl-section" style="grid-column:1/-1;margin-bottom:20px;"><div class="tpl-section-title">Profile</div><p style="font-size:13px;color:var(--gray-600);line-height:1.7;font-style:italic;">${p.about}</p></div>`:''}
+        ${d.experience.length?`<div class="tpl-section"><div class="tpl-section-title">Experience</div>${d.experience.map(e=>`<div class="tpl-entry"><div class="date">${e.year}</div><h4>${e.position}</h4><p style="font-size:11px;color:#B45309;font-weight:600;">${e.company}</p><p>${e.desc}</p></div>`).join('')}</div>`:''}
+        ${d.achievements.length?`<div class="tpl-section"><div class="tpl-section-title">Distinctions</div>${d.achievements.map(a=>`<div class="tpl-entry"><h4>${a.award}</h4><p>${a.desc} ${a.year?'('+a.year+')':''}</p></div>`).join('')}</div>`:''}
+      </div>
+      <div>
+        ${d.education.length?`<div class="tpl-section"><div class="tpl-section-title">Education</div>${d.education.map(e=>`<div class="tpl-entry"><div class="date">${e.year}</div><h4>${e.title}</h4><p>${e.subtitle}</p></div>`).join('')}</div>`:''}
+        ${d.skills.length?`<div class="tpl-section"><div class="tpl-section-title">Expertise</div>${d.skills.map(s=>`<div class="tpl-skill"><div class="tpl-skill-row"><span>${s.name}</span><span>${s.level}%</span></div><div class="tpl-bar"><div class="tpl-bar-fill" style="width:${s.level}%;background:linear-gradient(90deg,#B45309,#92400E);"></div></div></div>`).join('')}</div>`:''}
+        ${d.extra.goals?`<div class="tpl-section"><div class="tpl-section-title">Goals</div><p style="font-size:12px;color:var(--gray-600);line-height:1.6;">${d.extra.goals}</p></div>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// PDF DOWNLOAD (via print)
+// ============================================================
+function downloadPDF() {
+  showToast(lang==='kk'?'PDF дайындалуда...':lang==='ru'?'Подготовка PDF...':'Preparing PDF...','success');
+  setTimeout(()=>window.print(), 300);
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg, type='') {
+  const t2 = document.getElementById('toast');
+  t2.textContent = msg;
+  t2.className = 'toast show'+(type?' '+type:'');
+  setTimeout(()=>t2.classList.remove('show'),3000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+applyTranslations();
+renderBuilder();
+</script>
+</body>
+</html>
